@@ -1,0 +1,68 @@
+body {
+	font-family: var(--font-sans);
+	font-size: var(--text-base);
+	font-weight: 400;
+	font-feature-settings: "ss01", "cv11";
+	letter-spacing: var(--tracking-normal);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 500;
+	letter-spacing: var(--tracking-tight);
+	line-height: var(--leading-tight);
+	color: var(--paper);
+}
+
+.eyebrow {
+	font-family: var(--font-mono);
+	font-size: var(--text-mono);
+	font-weight: 500;
+	text-transform: uppercase;
+	letter-spacing: var(--tracking-eyebrow);
+	color: var(--cyan-mid);
+}
+
+.mono {
+	font-family: var(--font-mono);
+}
+
+.serif {
+	font-family: var(--font-serif);
+	font-style: italic;
+	font-weight: 400;
+}
+
+.muted {
+	color: var(--fog-2);
+}
+
+.dim {
+	color: var(--fog-1);
+}
+
+/* Hero title — used by index.astro / future hero variants. */
+.hero-title {
+	font-size: var(--text-hero);
+	line-height: var(--leading-hero);
+	letter-spacing: var(--tracking-hero);
+	font-weight: 500;
+	color: var(--paper);
+}
+
+/* Body lead — paragraphs near the hero. */
+.lead {
+	font-size: clamp(1.1rem, 1.5vw + 0.6rem, 1.5rem);
+	line-height: var(--leading-snug);
+	color: var(--fog-3);
+	letter-spacing: var(--tracking-tight);
+}
+
+::selection {
+	background: var(--cyan-glow);
+	color: var(--bg-deep);
+}

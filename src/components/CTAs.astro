@@ -1,0 +1,167 @@
+---
+import { links } from "~/content/site";
+
+interface Props {
+	primaryLabel?: string;
+	secondaryLabel?: string;
+	secondaryHref?: string;
+}
+
+const {
+	primaryLabel = "Download",
+	secondaryLabel = "Read the docs",
+	secondaryHref = links.docs,
+} = Astro.props;
+---
+
+<div class="cta-block">
+	<div class="ctas">
+		<a class="cta primary" href={links.download.mac}>
+			<span>{primaryLabel}</span>
+			<svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+				<path
+					d="M7 2v8M3 7l4 4 4-4M2 12h10"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"></path>
+			</svg>
+		</a>
+		<a class="cta ghost" href={secondaryHref} rel="noreferrer noopener">
+			<span>{secondaryLabel}</span>
+			<svg class="arrow" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
+				<path
+					d="M3 7h7M7 3l4 4-4 4"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.5"
+					stroke-linecap="round"
+					stroke-linejoin="round"></path>
+			</svg>
+		</a>
+	</div>
+	<p class="platforms mono">
+		<span class="bullet" aria-hidden="true"></span>
+		<span class="free">Free, forever.</span>
+		<span class="sep" aria-hidden="true">·</span>
+		<span>macOS · Windows · Linux</span>
+	</p>
+</div>
+
+<style>
+	.cta-block {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-4);
+	}
+	.ctas {
+		display: flex;
+		gap: var(--space-3);
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		padding: 14px 24px;
+		border-radius: var(--radius-2);
+		font-size: var(--text-base);
+		font-weight: 500;
+		letter-spacing: var(--tracking-tight);
+		border: 1px solid transparent;
+		transition:
+			background var(--dur-base) var(--ease-out),
+			border-color var(--dur-base) var(--ease-out),
+			transform var(--dur-fast) var(--ease-out),
+			color var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
+	}
+	.cta svg {
+		transition: transform var(--dur-base) var(--ease-out);
+	}
+	.cta:active {
+		transform: translateY(1px);
+	}
+
+	.cta.primary {
+		background: rgba(244, 246, 251, 0.12);
+		color: var(--paper);
+		border-color: rgba(244, 246, 251, 0.28);
+		backdrop-filter: blur(10px) saturate(140%);
+		-webkit-backdrop-filter: blur(10px) saturate(140%);
+		box-shadow:
+			0 8px 32px rgba(225, 29, 72, 0.22),
+			inset 0 1px 0 rgba(244, 246, 251, 0.18);
+	}
+	.cta.primary:hover {
+		background: rgba(244, 246, 251, 0.2);
+		border-color: rgba(244, 246, 251, 0.45);
+		color: var(--cyan-core);
+		box-shadow:
+			0 12px 40px rgba(225, 29, 72, 0.4),
+			inset 0 1px 0 rgba(244, 246, 251, 0.28);
+	}
+	.cta.primary:hover svg {
+		transform: translateY(2px);
+	}
+
+	.cta.ghost {
+		background: rgba(255, 255, 255, 0.4);
+		color: var(--paper);
+		border-color: var(--hairline-strong);
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
+	}
+	.cta.ghost:hover {
+		border-color: var(--cyan-glow);
+		color: var(--cyan-core);
+		background: rgba(225, 29, 72, 0.08);
+	}
+	.cta.ghost:hover .arrow {
+		transform: translateX(3px);
+	}
+
+	.platforms {
+		font-size: var(--text-mono);
+		color: var(--fog-2);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-eyebrow);
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		justify-content: center;
+		flex-wrap: wrap;
+		text-shadow: 0 1px 2px rgba(253, 244, 246, 0.9);
+	}
+	.platforms .sep {
+		color: var(--fog-1);
+	}
+	.platforms .free {
+		color: var(--cyan-bright);
+	}
+	.bullet {
+		display: inline-block;
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--cyan-glow);
+		box-shadow: 0 0 10px rgba(225, 29, 72, 0.8);
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.bullet {
+			animation: pulse 2.4s var(--ease-in-out) infinite;
+		}
+	}
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 0.55;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+</style>

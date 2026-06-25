@@ -1,0 +1,86 @@
+---
+interface Props {
+	id?: string;
+	eyebrow?: string;
+	title?: string;
+	/** Title with inline markup (e.g. a `<br>`); takes precedence over `title`. */
+	titleHtml?: string;
+	lede?: string;
+	wide?: boolean;
+}
+
+const { id, eyebrow, title, titleHtml, lede, wide = false } = Astro.props;
+---
+
+<section id={id} class={wide ? "section section--wide" : "section"}>
+	<div class="container">
+		{
+			(eyebrow || title || lede) && (
+				<header class="section-header">
+					{eyebrow && (
+						<p class="eyebrow">
+							<span class="diamond" aria-hidden="true">
+								◇
+							</span>
+							{eyebrow}
+						</p>
+					)}
+					{titleHtml ? (
+						<h2 class="section-title" set:html={titleHtml} />
+					) : (
+						title && <h2 class="section-title">{title}</h2>
+					)}
+					{lede && <p class="section-lede">{lede}</p>}
+				</header>
+			)
+		}
+		<slot />
+	</div>
+</section>
+
+<style>
+	.section {
+		padding: var(--space-9) 0;
+	}
+	.section--wide {
+		padding: var(--space-10) 0;
+	}
+	@media (max-width: 640px) {
+		.section,
+		.section--wide {
+			padding: var(--space-7) 0;
+		}
+		.section-header {
+			margin-bottom: var(--space-5);
+		}
+	}
+	.section-header {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin-bottom: var(--space-7);
+		max-width: 56ch;
+	}
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+	.diamond {
+		color: var(--cyan-glow);
+		font-size: 0.9em;
+		line-height: 1;
+	}
+	.section-title {
+		font-size: clamp(1.75rem, 2.4vw + 1rem, 2.6rem);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-tight);
+	}
+	.section-lede {
+		font-size: var(--text-lg);
+		line-height: var(--leading-snug);
+		color: var(--fog-3);
+		max-width: 56ch;
+	}
+</style>

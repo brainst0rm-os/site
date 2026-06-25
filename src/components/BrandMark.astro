@@ -1,0 +1,42 @@
+---
+
+interface Props {
+	size?: number;
+	class?: string;
+}
+
+const { size = 22, class: className } = Astro.props;
+---
+
+<svg
+	xmlns="http://www.w3.org/2000/svg"
+	viewBox="0 0 64 64"
+	width={size}
+	height={size}
+	class={className}
+	aria-hidden="true"
+	role="img"
+>
+	<defs>
+		<linearGradient id="bm-mini-bg" x1="0.5" y1="0" x2="0.5" y2="1">
+			<stop offset="0%" stop-color="#fb7185"></stop>
+			<stop offset="100%" stop-color="#be123c"></stop>
+		</linearGradient>
+		<radialGradient id="bm-mini-halo" cx="0.5" cy="0.42" r="0.55">
+			<stop offset="0%" stop-color="#ffffff" stop-opacity="0.45"></stop>
+			<stop offset="100%" stop-color="#ffffff" stop-opacity="0"></stop>
+		</radialGradient>
+		<linearGradient id="bm-mini-bolt" x1="0.2" y1="0" x2="0.8" y2="1">
+			<stop offset="0%" stop-color="#ffffff"></stop>
+			<stop offset="100%" stop-color="#ffe4ec"></stop>
+		</linearGradient>
+	</defs>
+	<rect width="64" height="64" rx="14" fill="url(#bm-mini-bg)"></rect>
+	<rect width="64" height="64" rx="14" fill="url(#bm-mini-halo)"></rect>
+	<path
+		d="M 38 12 L 20 36 L 30 36 L 26 52 L 44 28 L 34 28 Z"
+		fill="url(#bm-mini-bolt)"
+		stroke="rgba(255,255,255,0.7)"
+		stroke-width="0.6"
+		stroke-linejoin="round"></path>
+</svg>

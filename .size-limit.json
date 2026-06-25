@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Landing page (HTML+CSS, gzipped)",
+    "path": ["dist/index.html", "dist/_astro/style.*.css"],
+    "limit": "20 KB"
+  },
+  {
+    "name": "Joined page (HTML)",
+    "path": "dist/joined/index.html",
+    "limit": "12 KB"
+  },
+  {
+    "name": "Favicon",
+    "path": "dist/favicon.svg",
+    "limit": "1 KB"
+  },
+  {
+    "name": "Hero island wrapper (React-side, lazy)",
+    "path": "dist/_astro/HeroScene.*.js",
+    "limit": "3 KB"
+  },
+  {
+    "name": "React runtime (lazy, only loads with hero scene)",
+    "path": "dist/_astro/client.*.js",
+    "limit": "50 KB"
+  },
+  {
+    "name": "3D scene chunk (lazy, gated)",
+    "path": "dist/_astro/Scene.*.js",
+    "limit": "260 KB"
+  }
+]

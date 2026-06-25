@@ -1,0 +1,47 @@
+
+<div class="scroll-cue" aria-hidden="true">
+	<span class="label mono">Scroll</span>
+	<span class="line"></span>
+</div>
+
+<style>
+	.scroll-cue {
+		display: inline-flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 8px;
+		color: var(--fog-1);
+		pointer-events: none;
+	}
+	.label {
+		font-size: var(--text-mono);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-eyebrow);
+	}
+	.line {
+		display: block;
+		width: 1px;
+		height: 28px;
+		background: linear-gradient(to bottom, var(--cyan-glow), transparent);
+		transform-origin: top;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.line {
+			animation: drip 2.2s var(--ease-in-out) infinite;
+		}
+	}
+	@keyframes drip {
+		0% {
+			transform: scaleY(0.3);
+			opacity: 0.3;
+		}
+		50% {
+			transform: scaleY(1);
+			opacity: 0.9;
+		}
+		100% {
+			transform: scaleY(0.3);
+			opacity: 0.3;
+		}
+	}
+</style>

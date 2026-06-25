@@ -1,0 +1,119 @@
+---
+import CornerMarks from "~/components/CornerMarks.astro";
+import Footer from "~/components/Footer.astro";
+import Header from "~/components/Header.astro";
+import { SITE_NAME } from "~/content/site";
+import Base from "~/layouts/Base.astro";
+
+interface Props {
+	title: string;
+	description: string;
+	eyebrow?: string;
+	date?: Date;
+	meta?: string;
+}
+
+const { title, description, eyebrow, date, meta } = Astro.props;
+
+const dateString = date
+	? new Intl.DateTimeFormat("en", { year: "numeric", month: "short", day: "numeric" }).format(date)
+	: undefined;
+---
+
+<Base title={`${title} — ${SITE_NAME}`} description={description}>
+	<CornerMarks />
+	<Header />
+
+	<main class="article-main">
+		<div class="container article-container">
+			<header class="article-header">
+				{
+					eyebrow && (
+						<p class="eyebrow">
+							<span class="diamond" aria-hidden="true">
+								◇
+							</span>
+							{eyebrow}
+						</p>
+					)
+				}
+				<h1 class="article-title">{title}</h1>
+				{description && <p class="article-lede">{description}</p>}
+				{
+					(dateString || meta) && (
+						<p class="article-meta mono">
+							{dateString && <time datetime={date?.toISOString()}>{dateString}</time>}
+							{dateString && meta && <span class="sep">·</span>}
+							{meta && <span>{meta}</span>}
+						</p>
+					)
+				}
+			</header>
+
+			<div class="prose">
+				<slot />
+			</div>
+		</div>
+
+		<Footer />
+	</main>
+</Base>
+
+<style>
+	.article-main {
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100vh - 64px);
+	}
+	.article-container {
+		padding-top: var(--space-9);
+		padding-bottom: var(--space-9);
+		max-width: 760px;
+	}
+	.article-header {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin-bottom: var(--space-8);
+		padding-bottom: var(--space-6);
+		border-bottom: 1px solid var(--hairline);
+	}
+	.eyebrow {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		color: var(--fog-1);
+	}
+	.diamond {
+		color: var(--cyan-glow);
+		font-size: 0.9em;
+		line-height: 1;
+	}
+	.article-title {
+		font-size: clamp(2rem, 3vw + 1rem, 3.2rem);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-hero);
+		color: var(--paper);
+		text-wrap: balance;
+	}
+	.article-lede {
+		font-size: clamp(1.05rem, 0.8vw + 0.8rem, 1.4rem);
+		line-height: var(--leading-snug);
+		color: var(--fog-3);
+		max-width: 56ch;
+	}
+	.article-meta {
+		display: inline-flex;
+		align-items: center;
+		gap: 10px;
+		font-size: var(--text-mono);
+		color: var(--fog-1);
+		text-transform: uppercase;
+		letter-spacing: var(--tracking-eyebrow);
+		margin-top: var(--space-3);
+	}
+	.article-meta .sep {
+		color: var(--fog-1);
+	}
+</style>

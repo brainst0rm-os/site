@@ -1,0 +1,793 @@
+---
+import { getCollection } from "astro:content";
+import BrandMark from "~/components/BrandMark.astro";
+import CornerMarks from "~/components/CornerMarks.astro";
+import Divider from "~/components/Divider.astro";
+import Footer from "~/components/Footer.astro";
+import Gallery from "~/components/Gallery.astro";
+import GeoAccent from "~/components/GeoAccent.astro";
+import Header from "~/components/Header.astro";
+import HeroScene from "~/components/HeroScene.tsx";
+import Section from "~/components/Section.astro";
+import WaitlistForm from "~/components/WaitlistForm.astro";
+import { POSITIONING, SITE_NAME } from "~/content/site";
+import Base from "~/layouts/Base.astro";
+
+const capabilities = (await getCollection("capabilities")).sort(
+	(a, b) => a.data.order - b.data.order,
+);
+
+const pillarShapes = ["tetra", "diamond", "ring"] as const;
+const capShapes = ["triangle", "diamond", "ico", "tetra", "ring", "triangle"] as const;
+
+const pillars = [
+	{
+		title: "Apps, not features",
+		body:
+			"The shell only hosts apps. Notes, Database, Files, Graph, a calendar, a code editor — add the ones you want, drop the rest, and update each on its own.",
+	},
+	{
+		title: "Your data, your disk",
+		body:
+			"Every document is a plain file in a folder you own. Sync is optional and end-to-end encrypted — the relay only ever sees scrambled bytes. There's no account to sign up for.",
+	},
+	{
+		title: "AI you can govern",
+		body:
+			"The shell sits between your apps and any AI. Use your own API key or a model that runs locally, and decide exactly what each app and agent is allowed to touch.",
+	},
+];
+
+const roadmap = [
+	{
+		status: "In the build",
+		state: "done",
+		title: "The shell and twenty apps",
+		body:
+			"A sandboxed host with a capability ledger, the vault, and twenty first-party apps that all share one object space.",
+	},
+	{
+		status: "In the build",
+		state: "done",
+		title: "Local data, encrypted sync",
+		body:
+			"Every document is a CRDT on your disk. Multi-device sync is optional and end-to-end encrypted — your keys never leave your devices.",
+	},
+	{
+		status: "On it now",
+		state: "active",
+		title: "The AI broker",
+		body:
+			"One path for every AI call — your key or a local model — with a record on every object and a budget on every app.",
+	},
+	{
+		status: "Next",
+		state: "next",
+		title: "Public beta",
+		body:
+			"A free, encrypted, multi-device core you can actually live in, with a one-click way to bring your existing notes across.",
+	},
+	{
+		status: "Where it's headed",
+		state: "horizon",
+		title: "Agents as teammates",
+		body:
+			"AI that has its own identity, its own permissions, and a history of what it did — an operating system for a team that runs on agents.",
+	},
+];
+---
+
+<Base
+	title={`${SITE_NAME} — an AI-native OS for your knowledge work`}
+	description={POSITIONING}
+>
+	<CornerMarks />
+	<Header />
+
+	<main id="top">
+		<!-- Hero -->
+		<section class="hero">
+			<div class="scene-bleed" aria-hidden="true">
+				<div class="scene-mount"><HeroScene client:visible /></div>
+			</div>
+			<div class="hero-scrim" aria-hidden="true"></div>
+
+			<div class="hero-shapes" aria-hidden="true">
+				<svg class="hs-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+					<polyline points="84,17 93,31 91,73 79,57 84,17"></polyline>
+					<line x1="8" y1="22" x2="84" y2="17"></line>
+				</svg>
+				<span class="hs hs-1"><GeoAccent shape="tetra" size={42} /></span>
+				<span class="hs hs-2"><GeoAccent shape="triangle" size={26} /></span>
+				<span class="hs hs-3"><GeoAccent shape="diamond" size={34} /></span>
+				<span class="hs hs-4"><GeoAccent shape="ring" size={30} /></span>
+				<span class="hs hs-5"><GeoAccent shape="triangle" size={20} /></span>
+			</div>
+
+			<div class="container">
+				<div class="hero-inner">
+				<a class="hero-brand" href="#top" aria-label={SITE_NAME}>
+					<BrandMark size={56} class="hero-mark" />
+				</a>
+
+				<p class="hero-eyebrow eyebrow">
+					<span class="diamond" aria-hidden="true">◇</span> Local-first · AI-native
+				</p>
+				<h1 class="hero-title">A desktop OS for you and your&nbsp;AI.</h1>
+				<p class="hero-lede lead">
+					Brainstorm runs your apps, your data, and your AI on your own machine. Install what you
+					need, keep every file on your disk, and let AI help — only with the parts you hand it.
+				</p>
+
+				<div class="hero-cta">
+						<WaitlistForm idSuffix="hero" />
+						<p class="hero-trust mono">
+							<span class="dot" aria-hidden="true"></span>
+							Local-first · No account required · <a href="#inside">See it in action ↓</a>
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Overview -->
+		<Section
+			id="overview"
+			eyebrow="What it is"
+			titleHtml="It's not a notes app.<br />It's a desktop for everything you know"
+			lede="The screen is a real desktop — a wallpaper, app icons, windows. Each icon is its own app, sandboxed, all working from one set of data that lives with you."
+		>
+			<ul class="pillars">
+				{
+					pillars.map((p, i) => (
+						<li class="pillar">
+							<span class="pillar-glyph" aria-hidden="true">
+								<GeoAccent shape={pillarShapes[i] ?? "tetra"} size={30} />
+							</span>
+							<h3 class="pillar-title">{p.title}</h3>
+							<p class="pillar-body">{p.body}</p>
+						</li>
+					))
+				}
+			</ul>
+		</Section>
+
+		<!-- Screenshot carousel -->
+		<Section
+			id="inside"
+			eyebrow="A look inside"
+			titleHtml="One set of objects.<br />A different app for each way of seeing it"
+			lede="Each app reads and writes the same vault, so a note you write here is a row there and a node in the graph — never a copy, never an export."
+		>
+			<Gallery />
+		</Section>
+
+		<Divider />
+
+		<!-- AI-native / governance -->
+		<Section
+			id="ai-native"
+			eyebrow="AI-native"
+			title="You and your agents, working from one place"
+		>
+			<div class="split">
+				<p class="split-lede lead">
+					Most tools bolt AI on top: a button in someone else's cloud, working on data you don't
+					own, with no record of what it did. Brainstorm starts somewhere else.
+				</p>
+				<div class="split-points">
+					<p>
+						The same ledger that decides what an app can reach decides what an
+						<strong>agent</strong> can reach. Every grant is specific, logged, and easy to take
+						back — and if the system can't verify a request, it simply says no.
+					</p>
+					<p>
+						Your data and your keys stay on your machine, so you can hand work to AI you'd never
+						send to a stranger's server. That's the part no cloud tool can offer:
+						<strong>your data encrypted, models on your hardware, and a trail of who did what.</strong>
+					</p>
+					<p class="split-note muted">
+						Here today: the AI broker, provenance, and budgets. Agents with their own identity and
+						history are on the <a href="#roadmap">roadmap</a> below — not dressed up as if they've
+						already shipped.
+					</p>
+				</div>
+			</div>
+		</Section>
+
+		<!-- Capabilities -->
+		<Section
+			id="capabilities"
+			eyebrow="How it works"
+			title="A handful of decisions, kept everywhere"
+		>
+			<ul class="caps">
+				{
+					capabilities.map((entry, i) => (
+						<li class="cap">
+							<div class="cap-top">
+								<span class="cap-num mono">{String(i + 1).padStart(2, "0")}</span>
+								<GeoAccent shape={capShapes[i] ?? "ico"} size={22} class="cap-geo" />
+							</div>
+							<h3 class="cap-title">{entry.data.title}</h3>
+							<p class="cap-summary">{entry.data.summary}</p>
+						</li>
+					))
+				}
+			</ul>
+		</Section>
+
+		<Divider />
+
+		<!-- Roadmap -->
+		<Section
+			id="roadmap"
+			eyebrow="Roadmap"
+			title="Where it's headed"
+			lede="We build in the open — the plan and the open questions are all in the repo. Here's what's in the current build, what we're on now, and where it goes."
+		>
+			<ol class="roadmap">
+				{
+					roadmap.map((r) => (
+						<li class:list={["rm-item", `rm-item--${r.state}`]}>
+							<span class="rm-rail" aria-hidden="true">
+								<span class="rm-dot" />
+							</span>
+							<div class="rm-body">
+								<span class:list={["rm-status", `rm-status--${r.state}`]}>{r.status}</span>
+								<h3 class="rm-title">{r.title}</h3>
+								<p class="rm-text">{r.body}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</Section>
+
+		<!-- Closing CTA -->
+		<section id="waitlist" class="closer">
+			<div class="container closer-inner glow-ring">
+				<GeoAccent shape="ico" size={46} class="closer-geo" />
+				<h2 class="closer-title">Own your tools again</h2>
+				<p class="closer-lede">
+					We'll send one email when the beta opens — that's it. No newsletter, no drip.
+				</p>
+				<WaitlistForm idSuffix="closer" />
+				<p class="closer-note mono">We store your email to tell you about the beta. Nothing else.</p>
+			</div>
+		</section>
+	</main>
+
+	<Footer />
+</Base>
+
+<style>
+	/* ── Hero ───────────────────────────────────────────── */
+	.hero {
+		position: relative;
+		isolation: isolate;
+		min-height: clamp(600px, 90vh, 880px);
+		display: flex;
+		align-items: center;
+		overflow: hidden;
+	}
+	.scene-bleed {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		opacity: 0.85;
+		transform: translateX(15%) scale(1.05);
+		-webkit-mask: radial-gradient(ellipse 62% 70% at 66% 48%, black 42%, transparent 100%);
+		mask: radial-gradient(ellipse 62% 70% at 66% 48%, black 42%, transparent 100%);
+	}
+	.scene-mount {
+		position: absolute;
+		inset: 0;
+	}
+	.scene-mount :global(astro-island) {
+		display: block;
+		width: 100%;
+		height: 100%;
+	}
+	.hero-scrim {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		pointer-events: none;
+		background:
+			linear-gradient(
+				90deg,
+				var(--bg-deep) 0%,
+				var(--bg-deep) 34%,
+				rgba(253, 244, 246, 0.86) 50%,
+				rgba(253, 244, 246, 0.4) 66%,
+				transparent 82%
+			),
+			linear-gradient(180deg, transparent 55%, rgba(253, 244, 246, 0.45) 100%);
+	}
+	.hero-shapes {
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		pointer-events: none;
+		overflow: hidden;
+	}
+	.hs-lines {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+	.hs-lines polyline,
+	.hs-lines line {
+		fill: none;
+		stroke: var(--cyan-glow);
+		stroke-width: 1;
+		stroke-dasharray: 0.1 5;
+		stroke-linecap: round;
+		vector-effect: non-scaling-stroke;
+		opacity: 0.3;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.hs-lines polyline,
+		.hs-lines line {
+			animation: hs-dash 5s linear infinite;
+		}
+	}
+	@keyframes hs-dash {
+		to {
+			stroke-dashoffset: -50;
+		}
+	}
+	.hs {
+		position: absolute;
+		line-height: 0;
+	}
+	.hs-1 {
+		top: 16%;
+		right: 16%;
+	}
+	.hs-2 {
+		top: 30%;
+		right: 7%;
+	}
+	.hs-3 {
+		top: 56%;
+		right: 21%;
+	}
+	.hs-4 {
+		top: 72%;
+		right: 9%;
+	}
+	.hs-5 {
+		top: 21%;
+		left: 7%;
+	}
+	@media (prefers-reduced-motion: no-preference) {
+		.hs {
+			animation: hs-float 8s var(--ease-in-out) infinite;
+		}
+		.hs-2 {
+			animation-duration: 6.5s;
+			animation-delay: -2s;
+		}
+		.hs-3 {
+			animation-duration: 9.5s;
+			animation-delay: -4s;
+		}
+		.hs-4 {
+			animation-duration: 7s;
+			animation-delay: -1s;
+		}
+		.hs-5 {
+			animation-duration: 10s;
+			animation-delay: -3s;
+		}
+		.hs :global(.geo) {
+			animation: hs-glitch 5.5s steps(1, end) infinite;
+		}
+		.hs-2 :global(.geo) {
+			animation-delay: 1.3s;
+		}
+		.hs-3 :global(.geo) {
+			animation-delay: 2.6s;
+		}
+		.hs-4 :global(.geo) {
+			animation-delay: 3.9s;
+		}
+		.hs-5 :global(.geo) {
+			animation-delay: 0.7s;
+		}
+	}
+	@keyframes hs-float {
+		0%,
+		100% {
+			transform: translateY(0);
+		}
+		50% {
+			transform: translateY(-12px);
+		}
+	}
+	@keyframes hs-glitch {
+		0%,
+		86%,
+		100% {
+			transform: translate(0, 0) skewX(0deg);
+			opacity: 0.42;
+		}
+		87% {
+			transform: translate(2px, -1px) skewX(5deg);
+			opacity: 0.85;
+		}
+		89% {
+			transform: translate(-3px, 1px) skewX(-4deg);
+			opacity: 0.25;
+		}
+		91% {
+			transform: translate(2px, 1px) skewX(3deg);
+			opacity: 0.9;
+		}
+		93% {
+			transform: translate(-1px, 0) skewX(-1deg);
+			opacity: 0.5;
+		}
+	}
+	.hero-inner {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: var(--space-4);
+		padding-top: var(--space-8);
+		padding-bottom: var(--space-8);
+		max-width: 720px;
+	}
+	.hero-brand {
+		display: inline-flex;
+		margin-bottom: var(--space-2);
+	}
+	/* On mobile the sticky header already shows the mark + wordmark, so the
+	   large hero mark is a second logo on screen at once — drop it. */
+	@media (max-width: 600px) {
+		.hero-brand {
+			display: none;
+		}
+	}
+	.hero-mark {
+		filter: drop-shadow(0 8px 28px rgba(225, 29, 72, 0.35));
+	}
+	.hero-eyebrow {
+		color: var(--cyan-bright);
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+	.diamond {
+		color: var(--cyan-glow);
+	}
+	.hero-title {
+		font-size: var(--text-hero);
+		line-height: var(--leading-hero);
+		letter-spacing: var(--tracking-hero);
+		text-wrap: balance;
+		max-width: 15ch;
+		text-shadow: 0 2px 18px rgba(253, 244, 246, 0.6);
+	}
+	.hero-lede {
+		max-width: 46ch;
+		text-shadow: 0 1px 12px rgba(253, 244, 246, 0.6);
+	}
+	.hero-cta {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin-top: var(--space-4);
+		width: 100%;
+	}
+	.hero-trust {
+		font-size: var(--text-mono);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--fog-2);
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+	.hero-trust a {
+		color: var(--cyan-bright);
+		text-transform: none;
+		letter-spacing: var(--tracking-tight);
+	}
+	.hero-trust a:hover {
+		color: var(--cyan-core);
+	}
+	.dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--cyan-glow);
+		box-shadow: 0 0 10px rgba(225, 29, 72, 0.8);
+	}
+
+	/* ── Overview pillars ───────────────────────────────── */
+	.pillars {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-6);
+	}
+	@media (max-width: 820px) {
+		.pillars {
+			grid-template-columns: 1fr;
+			gap: var(--space-5);
+		}
+	}
+	.pillar {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		padding: var(--space-5);
+		background: rgba(255, 255, 255, 0.5);
+		border: 1px solid var(--hairline);
+		border-radius: 16px;
+		transition:
+			border-color var(--dur-base) var(--ease-out),
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
+	}
+	.pillar:hover {
+		border-color: rgba(225, 29, 72, 0.35);
+		transform: translateY(-3px);
+		box-shadow: 0 16px 40px rgba(58, 31, 41, 0.08);
+	}
+	.pillar-glyph {
+		display: inline-flex;
+		width: 46px;
+		height: 46px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 12px;
+		background: rgba(225, 29, 72, 0.07);
+		margin-bottom: var(--space-2);
+	}
+	.pillar-title {
+		font-size: var(--text-xl);
+		font-weight: 500;
+		color: var(--paper);
+	}
+	.pillar-body {
+		font-size: var(--text-base);
+		line-height: var(--leading-snug);
+		color: var(--fog-2);
+	}
+
+	/* ── AI-native split ────────────────────────────────── */
+	.split {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-7);
+		align-items: start;
+	}
+	@media (max-width: 820px) {
+		.split {
+			grid-template-columns: 1fr;
+			gap: var(--space-5);
+		}
+	}
+	.split-lede {
+		max-width: 34ch;
+	}
+	.split-points {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		font-size: var(--text-base);
+		line-height: var(--leading-relaxed);
+		color: var(--fog-3);
+	}
+	.split-points strong {
+		color: var(--paper);
+		font-weight: 500;
+	}
+	.split-points a {
+		color: var(--cyan-bright);
+	}
+	.split-points a:hover {
+		color: var(--cyan-core);
+	}
+	.split-note {
+		font-size: var(--text-sm);
+	}
+
+	/* ── Capabilities ───────────────────────────────────── */
+	.caps {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-6);
+	}
+	@media (max-width: 820px) {
+		.caps {
+			grid-template-columns: 1fr 1fr;
+			gap: var(--space-5);
+		}
+	}
+	@media (max-width: 560px) {
+		.caps {
+			grid-template-columns: 1fr;
+		}
+	}
+	.cap {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2);
+		padding: var(--space-5);
+		background: rgba(255, 255, 255, 0.5);
+		border: 1px solid var(--hairline);
+		border-radius: 14px;
+		transition:
+			border-color var(--dur-base) var(--ease-out),
+			transform var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
+	}
+	.cap:hover {
+		border-color: rgba(225, 29, 72, 0.32);
+		transform: translateY(-2px);
+		box-shadow: 0 14px 34px rgba(58, 31, 41, 0.07);
+	}
+	.cap-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: var(--space-2);
+	}
+	.cap-geo {
+		opacity: 0.7;
+	}
+	.cap-num {
+		font-size: var(--text-mono);
+		color: var(--cyan-glow);
+		letter-spacing: var(--tracking-eyebrow);
+	}
+	.cap-title {
+		font-size: var(--text-lg);
+		font-weight: 500;
+		color: var(--paper);
+		text-wrap: balance;
+		/* Reserve two lines so 1- and 2-line titles align across the grid. */
+		min-height: 2.3em;
+		line-height: 1.15;
+	}
+	.cap-summary {
+		font-size: var(--text-sm);
+		line-height: var(--leading-snug);
+		color: var(--fog-2);
+	}
+
+	/* ── Roadmap ────────────────────────────────────────── */
+	.roadmap {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		max-width: 60ch;
+	}
+	.rm-item {
+		display: grid;
+		grid-template-columns: 28px 1fr;
+		gap: var(--space-4);
+	}
+	.rm-rail {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.rm-dot {
+		width: 13px;
+		height: 13px;
+		border-radius: 50%;
+		margin-top: 5px;
+		border: 2px solid var(--cyan-glow);
+		background: var(--bg-deep);
+		flex-shrink: 0;
+	}
+	.rm-item--done .rm-dot {
+		background: var(--cyan-glow);
+	}
+	.rm-item--active .rm-dot {
+		background: var(--cyan-glow);
+		box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.22);
+	}
+	.rm-item--next .rm-dot,
+	.rm-item--horizon .rm-dot {
+		border-color: var(--hairline-strong);
+	}
+	.rm-rail::after {
+		content: "";
+		flex: 1;
+		width: 1px;
+		background: var(--hairline);
+		margin: 6px 0;
+	}
+	.rm-item:last-child .rm-rail::after {
+		display: none;
+	}
+	.rm-body {
+		padding-bottom: var(--space-6);
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+	}
+	.rm-status {
+		font-family: var(--font-mono);
+		font-size: var(--text-mono);
+		letter-spacing: var(--tracking-eyebrow);
+		text-transform: uppercase;
+		color: var(--fog-1);
+		width: fit-content;
+	}
+	.rm-status--done {
+		color: var(--cyan-mid);
+	}
+	.rm-status--active {
+		color: var(--cyan-bright);
+	}
+	.rm-title {
+		font-size: var(--text-xl);
+		font-weight: 500;
+		color: var(--paper);
+	}
+	.rm-text {
+		font-size: var(--text-base);
+		line-height: var(--leading-snug);
+		color: var(--fog-2);
+	}
+
+	/* ── Closer ─────────────────────────────────────────── */
+	.closer {
+		padding: var(--space-10) 0 var(--space-9);
+		/* The glow-ring halo bleeds past the gutters; clip its horizontal
+		   overspill so it can't drive page-wide horizontal scroll on mobile. */
+		overflow-x: clip;
+	}
+	.closer-inner {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: var(--space-4);
+		max-width: 620px;
+		margin-inline: auto;
+	}
+	.closer-geo {
+		margin-bottom: var(--space-2);
+	}
+	.closer-title {
+		font-size: clamp(2rem, 3vw + 1rem, 3rem);
+		font-weight: 500;
+		letter-spacing: var(--tracking-hero);
+	}
+	.closer-lede {
+		font-size: var(--text-lg);
+		line-height: var(--leading-snug);
+		color: var(--fog-3);
+		max-width: 46ch;
+	}
+	.closer :global(.waitlist) {
+		justify-content: center;
+		margin-top: var(--space-2);
+	}
+	.closer-note {
+		font-size: var(--text-mono);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--fog-1);
+		margin-top: var(--space-2);
+	}
+</style>

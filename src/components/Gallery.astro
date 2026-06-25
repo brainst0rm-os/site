@@ -1,0 +1,585 @@
+---
+import { screenshots } from "~/content/screenshots";
+const first = screenshots[0] ?? { app: "", title: "", caption: "" };
+---
+
+<div class="carousel" data-carousel>
+	<div class="stage">
+		<!-- Static window frame; Swiper scrolls the screenshots inside it so the
+		     border and traffic lights never move during a slide transition. -->
+		<div class="viewport">
+			<span class="traffic" aria-hidden="true">
+				<i /> <i /> <i />
+			</span>
+			<div class="swiper car" data-car>
+				<div class="swiper-wrapper">
+					{
+						screenshots.map((shot, i) => (
+							<div class="swiper-slide car-slide">
+								<button
+									class="car-zoom"
+									type="button"
+									data-zoom={i}
+									aria-label={`View ${shot.app}: ${shot.title} fullscreen`}
+								>
+									<img
+										src={shot.src}
+										alt={`${shot.app}: ${shot.title}`}
+										loading={i === 0 ? "eager" : "lazy"}
+										decoding="async"
+										width="1100"
+										height="720"
+										draggable="false"
+									/>
+								</button>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+
+		<button class="car-arrow car-arrow--prev" data-prev type="button" aria-label="Previous screenshot">
+			<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+				<path
+					d="M13 5l-6 6 6 6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.7"
+					stroke-linecap="round"
+					stroke-linejoin="round"></path>
+			</svg>
+		</button>
+		<button class="car-arrow car-arrow--next" data-next type="button" aria-label="Next screenshot">
+			<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+				<path
+					d="M9 5l6 6-6 6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.7"
+					stroke-linecap="round"
+					stroke-linejoin="round"></path>
+			</svg>
+		</button>
+	</div>
+
+	<figcaption class="caption" aria-live="polite">
+		<span class="cap-app eyebrow" data-cap-app>{first.app}</span>
+		<span class="cap-title" data-cap-title>{first.title}</span>
+		<span class="cap-text" data-cap-text>{first.caption}</span>
+	</figcaption>
+
+	<div class="car-dots" data-dots></div>
+
+	<!-- Fullscreen viewer: its own looped Swiper, decoupled from the inline one. -->
+	<dialog class="lightbox" data-lightbox aria-label="Screenshot viewer">
+		<button class="lb-close" data-lb-close type="button" aria-label="Close fullscreen">
+			<svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
+				<path
+					d="M5 5l12 12M17 5L5 17"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.7"
+					stroke-linecap="round"></path>
+			</svg>
+		</button>
+
+		<div class="swiper lb-swiper" data-lb>
+			<div class="swiper-wrapper">
+				{
+					screenshots.map((shot) => (
+						<div class="swiper-slide lb-slide">
+							<figure class="lb-figure">
+								<div class="lb-window">
+									<span class="traffic" aria-hidden="true">
+										<i /> <i /> <i />
+									</span>
+									<img
+										class="lb-img"
+										src={shot.src}
+										alt={`${shot.app}: ${shot.title}`}
+										loading="lazy"
+										decoding="async"
+										draggable="false"
+									/>
+								</div>
+								<figcaption class="lb-cap">
+									<span class="cap-app eyebrow">{shot.app}</span>
+									<span class="lb-cap-title">{shot.title}</span>
+								</figcaption>
+							</figure>
+						</div>
+					))
+				}
+			</div>
+		</div>
+
+		<button class="lb-arrow lb-arrow--prev" data-lb-prev type="button" aria-label="Previous screenshot">
+			<svg width="26" height="26" viewBox="0 0 22 22" aria-hidden="true">
+				<path
+					d="M13 5l-6 6 6 6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.7"
+					stroke-linecap="round"
+					stroke-linejoin="round"></path>
+			</svg>
+		</button>
+		<button class="lb-arrow lb-arrow--next" data-lb-next type="button" aria-label="Next screenshot">
+			<svg width="26" height="26" viewBox="0 0 22 22" aria-hidden="true">
+				<path
+					d="M9 5l6 6-6 6"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="1.7"
+					stroke-linecap="round"
+					stroke-linejoin="round"></path>
+			</svg>
+		</button>
+	</dialog>
+</div>
+
+<style>
+	.carousel {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-5);
+	}
+	.stage {
+		position: relative;
+	}
+	.viewport {
+		position: relative;
+		border-radius: 12px;
+		overflow: hidden;
+		border: 1px solid var(--hairline);
+		background: #fff;
+		box-shadow:
+			0 18px 44px rgba(58, 31, 41, 0.14),
+			0 2px 6px rgba(58, 31, 41, 0.05);
+	}
+
+	/* macOS traffic lights — fixed sizing so they read identically at every
+	   viewport width (vw-scaling made them drift relative to the frame). One
+	   step down on small screens where the frame itself shrinks. */
+	.traffic {
+		position: absolute;
+		top: 12px;
+		left: 14px;
+		z-index: 3;
+		display: inline-flex;
+		gap: 7px;
+		pointer-events: none;
+	}
+	.traffic i {
+		width: 11px;
+		height: 11px;
+		border-radius: 50%;
+		box-shadow:
+			inset 0 0 0 0.5px rgba(0, 0, 0, 0.14),
+			0 1px 2px rgba(0, 0, 0, 0.22);
+	}
+	.traffic i:nth-child(1) {
+		background: #ff5f57;
+	}
+	.traffic i:nth-child(2) {
+		background: #febc2e;
+	}
+	.traffic i:nth-child(3) {
+		background: #28c840;
+	}
+	@media (max-width: 600px) {
+		.traffic {
+			top: 9px;
+			left: 11px;
+			gap: 6px;
+		}
+		.traffic i {
+			width: 9px;
+			height: 9px;
+		}
+	}
+
+	/* Swiper owns layout via swiper/css; these are the screenshot-specific bits. */
+	.car {
+		width: 100%;
+	}
+	.car-slide {
+		min-width: 0;
+	}
+	.car-zoom {
+		display: block;
+		width: 100%;
+		padding: 0;
+		border: 0;
+		background: none;
+		cursor: zoom-in;
+	}
+	.car-slide img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1100 / 720;
+		object-fit: cover;
+		/* top-left so the wider desktop shot keeps its left-edge app icons
+		   (it's cropped from the right instead of both sides). */
+		object-position: top left;
+		user-select: none;
+	}
+
+	/* Inline arrows overlay the picture edges and only appear on hover —
+	   pointer devices only. Touch users open fullscreen, where arrows live. */
+	.car-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 4;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 44px;
+		height: 44px;
+		border-radius: var(--radius-pill);
+		border: 1px solid var(--hairline);
+		background: rgba(255, 255, 255, 0.88);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		color: var(--paper);
+		cursor: pointer;
+		opacity: 0;
+		box-shadow: 0 4px 14px rgba(58, 31, 41, 0.2);
+		transition:
+			color var(--dur-base) var(--ease-out),
+			background var(--dur-base) var(--ease-out),
+			border-color var(--dur-base) var(--ease-out),
+			opacity var(--dur-base) var(--ease-out);
+	}
+	/* Overlay the frame edges rather than bleeding into the gutter — sitting
+	   outside the frame pushed past the viewport and caused horizontal scroll
+	   on any window narrower than the centered content. */
+	.car-arrow--prev {
+		left: 12px;
+	}
+	.car-arrow--next {
+		right: 12px;
+	}
+	.stage:hover .car-arrow,
+	.car-arrow:focus-visible {
+		opacity: 1;
+	}
+	.car-arrow:hover {
+		color: #fff;
+		background: var(--cyan-mid);
+		border-color: var(--cyan-mid);
+	}
+	/* No inline arrows on touch — they belong to fullscreen only. */
+	@media (hover: none), (pointer: coarse) {
+		.car-arrow {
+			display: none;
+		}
+	}
+
+	.caption {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		max-width: 64ch;
+		padding-inline: var(--space-1);
+		transition: opacity var(--dur-base) var(--ease-out);
+	}
+	.cap-app {
+		color: var(--cyan-glow);
+	}
+	.cap-title {
+		font-size: var(--text-xl);
+		font-weight: 500;
+		color: var(--paper);
+		letter-spacing: var(--tracking-tight);
+	}
+	.cap-text {
+		font-size: var(--text-base);
+		line-height: var(--leading-snug);
+		color: var(--fog-2);
+	}
+
+	/* Swiper pagination bullets, restyled to our dot language. */
+	.car-dots {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+	.car-dot {
+		display: inline-block;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--hairline-strong);
+		cursor: pointer;
+		transition:
+			background var(--dur-base) var(--ease-out),
+			width var(--dur-base) var(--ease-out);
+	}
+	.car-dot--active {
+		background: var(--cyan-glow);
+		width: 22px;
+		border-radius: var(--radius-pill);
+	}
+
+	/* ── Fullscreen viewer ──────────────────────────────── */
+	.lightbox {
+		width: 100vw;
+		height: 100dvh;
+		max-width: 100vw;
+		max-height: 100dvh;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: rgba(13, 22, 38, 0.92);
+		overflow: hidden;
+	}
+	.lightbox::backdrop {
+		background: rgba(13, 22, 38, 0.6);
+	}
+	.lightbox:not([open]) {
+		display: none;
+	}
+	.lb-swiper {
+		width: 100%;
+		height: 100%;
+	}
+	.lb-slide {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.lb-figure {
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: var(--space-4);
+		padding: clamp(48px, 8vw, 88px) clamp(16px, 5vw, 72px);
+	}
+	.lb-window {
+		position: relative;
+		border-radius: 12px;
+		overflow: hidden;
+		background: #fff;
+		box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+		max-width: 100%;
+	}
+	.lb-img {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 74vh;
+		user-select: none;
+	}
+	.lb-cap {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 6px;
+		text-align: center;
+		max-width: 60ch;
+	}
+	.lb-cap .cap-app {
+		color: #5cc8ee;
+	}
+	.lb-cap-title {
+		font-size: var(--text-lg);
+		font-weight: 500;
+		color: #f4f6fb;
+		letter-spacing: var(--tracking-tight);
+	}
+	.lb-close {
+		position: absolute;
+		top: clamp(12px, 2vw, 22px);
+		right: clamp(12px, 2vw, 22px);
+		z-index: 6;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 42px;
+		height: 42px;
+		border-radius: var(--radius-pill);
+		border: 1px solid rgba(244, 246, 251, 0.28);
+		background: rgba(244, 246, 251, 0.14);
+		color: #f4f6fb;
+		cursor: pointer;
+		transition:
+			background var(--dur-base) var(--ease-out),
+			border-color var(--dur-base) var(--ease-out);
+	}
+	.lb-close:hover {
+		background: rgba(244, 246, 251, 0.16);
+		border-color: rgba(244, 246, 251, 0.4);
+	}
+	.lb-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 6;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 52px;
+		height: 52px;
+		border-radius: var(--radius-pill);
+		border: 1px solid rgba(244, 246, 251, 0.28);
+		background: rgba(244, 246, 251, 0.14);
+		color: #f4f6fb;
+		cursor: pointer;
+		transition:
+			background var(--dur-base) var(--ease-out),
+			border-color var(--dur-base) var(--ease-out);
+	}
+	.lb-arrow:hover {
+		background: rgba(244, 246, 251, 0.16);
+		border-color: rgba(244, 246, 251, 0.4);
+	}
+	.lb-arrow--prev {
+		left: clamp(8px, 2vw, 28px);
+	}
+	.lb-arrow--next {
+		right: clamp(8px, 2vw, 28px);
+	}
+
+	@media (max-width: 600px) {
+		.lb-arrow {
+			width: 44px;
+			height: 44px;
+		}
+		.lb-figure {
+			padding: 64px 12px;
+		}
+		.lb-img {
+			max-height: 68vh;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.caption {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	import Swiper from "swiper";
+	import { A11y, Keyboard, Navigation, Pagination } from "swiper/modules";
+	import "swiper/css";
+	import { screenshots } from "~/content/screenshots";
+
+	for (const root of document.querySelectorAll<HTMLElement>("[data-carousel]")) {
+		const carEl = root.querySelector<HTMLElement>("[data-car]");
+		if (!carEl) continue;
+
+		const dotsEl = root.querySelector<HTMLElement>("[data-dots]");
+		const prevEl = root.querySelector<HTMLElement>("[data-prev]");
+		const nextEl = root.querySelector<HTMLElement>("[data-next]");
+		const cap = root.querySelector<HTMLElement>(".caption");
+		const capApp = root.querySelector<HTMLElement>("[data-cap-app]");
+		const capTitle = root.querySelector<HTMLElement>("[data-cap-title]");
+		const capText = root.querySelector<HTMLElement>("[data-cap-text]");
+
+		const lightbox = root.querySelector<HTMLDialogElement>("[data-lightbox]");
+		const lbEl = root.querySelector<HTMLElement>("[data-lb]");
+		const lbPrev = root.querySelector<HTMLElement>("[data-lb-prev]");
+		const lbNext = root.querySelector<HTMLElement>("[data-lb-next]");
+		const lbClose = root.querySelector<HTMLButtonElement>("[data-lb-close]");
+
+		const renderCaption = (i: number) => {
+			const shot = screenshots[i];
+			if (!shot || !capApp || !capTitle || !capText) return;
+			capApp.textContent = shot.app;
+			capTitle.textContent = shot.title;
+			capText.textContent = shot.caption;
+		};
+
+		const car = new Swiper(carEl, {
+			modules: [Navigation, Pagination, Keyboard, A11y],
+			loop: true,
+			slidesPerView: 1,
+			speed: 460,
+			navigation: prevEl && nextEl ? { prevEl, nextEl } : false,
+			pagination: dotsEl
+				? { el: dotsEl, clickable: true, bulletClass: "car-dot", bulletActiveClass: "car-dot--active" }
+				: false,
+			keyboard: { enabled: true, onlyInViewport: true },
+			a11y: { enabled: true },
+			on: {
+				slideChange(sw) {
+					if (cap) {
+						cap.style.opacity = "0";
+						window.setTimeout(() => {
+							renderCaption(sw.realIndex);
+							cap.style.opacity = "1";
+						}, 150);
+					} else {
+						renderCaption(sw.realIndex);
+					}
+				},
+			},
+		});
+		renderCaption(car.realIndex);
+
+		// ── Fullscreen viewer ──────────────────────────────
+		// Built lazily on first open: a closed dialog is display:none, so Swiper
+		// would measure zero-width slides if constructed up front.
+		let lb: Swiper | null = null;
+		const initLb = (): Swiper | null => {
+			if (lb || !lbEl) return lb;
+			lb = new Swiper(lbEl, {
+				modules: [Navigation, Keyboard, A11y],
+				loop: true,
+				slidesPerView: 1,
+				speed: 420,
+				navigation: lbPrev && lbNext ? { prevEl: lbPrev, nextEl: lbNext } : false,
+				keyboard: { enabled: false },
+				a11y: { enabled: true },
+			});
+			return lb;
+		};
+
+		const openLightbox = (i: number) => {
+			if (!lightbox) return;
+			lightbox.showModal();
+			const s = initLb();
+			if (!s) return;
+			s.update();
+			s.slideToLoop(i, 0);
+			s.keyboard.enable();
+			car.keyboard.disable();
+		};
+
+		// Delegated: Swiper's loop clones slides, and clones don't carry per-node
+		// listeners — so bind once on the track and read the index off the button.
+		carEl.addEventListener("click", (e) => {
+			const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-zoom]");
+			if (!btn) return;
+			const i = Number(btn.dataset.zoom);
+			if (Number.isInteger(i)) openLightbox(i);
+		});
+
+		lbClose?.addEventListener("click", () => lightbox?.close());
+		// Click on the dim area (anywhere but the image, arrows, or close) dismisses.
+		lightbox?.addEventListener("click", (e) => {
+			const t = e.target as HTMLElement;
+			if (t.closest(".lb-window") || t.closest(".lb-arrow") || t.closest(".lb-close")) return;
+			lightbox.close();
+		});
+		// On close (button, Escape, or backdrop): leave the inline carousel on the
+		// slide the user navigated to in fullscreen, and hand keyboard nav back.
+		lightbox?.addEventListener("close", () => {
+			if (lb) {
+				car.slideToLoop(lb.realIndex, 0);
+				lb.keyboard.disable();
+			}
+			car.keyboard.enable();
+		});
+	}
+</script>

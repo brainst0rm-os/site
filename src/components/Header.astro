@@ -1,0 +1,197 @@
+---
+import BrandMark from "~/components/BrandMark.astro";
+import { SITE_NAME, nav } from "~/content/site";
+---
+
+<header class="site-header" data-header>
+	<div class="container row">
+		<div class="brand">
+			<BrandMark size={24} />
+			<span class="wordmark">{SITE_NAME}</span>
+		</div>
+
+		<nav class="primary" aria-label="Primary">
+			{
+				nav.map((item) => (
+					<a href={item.href} class="nav-link" data-nav={item.section}>
+						{item.label}
+					</a>
+				))
+			}
+			<span class="nav-underline" data-underline aria-hidden="true"></span>
+		</nav>
+
+		<a href="#waitlist" class="nav-cta">Join the waitlist</a>
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: var(--z-fixed);
+		padding: var(--space-3) 0;
+		background: rgba(253, 244, 246, 0.66);
+		backdrop-filter: blur(14px) saturate(150%);
+		-webkit-backdrop-filter: blur(14px) saturate(150%);
+		border-bottom: 1px solid var(--hairline);
+		transition: box-shadow var(--dur-base) var(--ease-out);
+	}
+	.site-header[data-scrolled] {
+		/* Opaque once scrolled so content doesn't bleed through the blur and
+		   crowd the bar — that read as "lost top padding" on mobile. */
+		background: rgba(253, 244, 246, 0.94);
+		box-shadow: 0 6px 24px rgba(58, 31, 41, 0.07);
+	}
+	.row {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-5);
+	}
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: 9px;
+		color: var(--paper);
+		font-weight: 500;
+		letter-spacing: var(--tracking-tight);
+		padding: 6px;
+		flex-shrink: 0;
+	}
+	.wordmark {
+		font-size: var(--text-base);
+	}
+	.primary {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		font-size: var(--text-sm);
+		margin-inline: auto;
+	}
+	.nav-link {
+		color: var(--fog-2);
+		padding: 7px 14px;
+		border-radius: var(--radius-1);
+		transition: color var(--dur-base) var(--ease-out);
+		white-space: nowrap;
+	}
+	.nav-link:hover {
+		color: var(--paper);
+	}
+	.nav-link[data-active] {
+		color: var(--paper);
+	}
+	.nav-underline {
+		position: absolute;
+		bottom: -2px;
+		left: 0;
+		width: 0;
+		height: 1.5px;
+		border-radius: 1px;
+		background: var(--cyan-glow);
+		transform: translateX(0);
+		opacity: 0;
+		transition:
+			transform var(--dur-slow) var(--ease-out),
+			width var(--dur-slow) var(--ease-out),
+			opacity var(--dur-base) var(--ease-out);
+	}
+	.nav-underline[data-on] {
+		opacity: 1;
+	}
+	.nav-cta {
+		flex-shrink: 0;
+		display: inline-flex;
+		align-items: center;
+		padding: 8px 16px;
+		border-radius: var(--radius-2);
+		font-size: var(--text-sm);
+		font-weight: 500;
+		letter-spacing: var(--tracking-tight);
+		color: #fff;
+		border: 1px solid transparent;
+		background: var(--cyan-mid);
+		box-shadow: 0 4px 14px rgba(225, 29, 72, 0.24);
+		transition:
+			background var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out);
+	}
+	.nav-cta:hover {
+		background: var(--cyan-bright);
+		box-shadow: 0 6px 18px rgba(225, 29, 72, 0.32);
+	}
+	@media (max-width: 760px) {
+		.primary {
+			display: none;
+		}
+	}
+	/* Keep the wordmark on small screens — the brand needs a name, and with the
+	   nav hidden there's room. Trim the CTA so both fit on narrow phones. */
+	@media (max-width: 380px) {
+		.nav-cta {
+			padding: 8px 12px;
+		}
+		.row {
+			gap: var(--space-3);
+		}
+	}
+</style>
+
+<script>
+	const header = document.querySelector<HTMLElement>("[data-header]");
+	const onScroll = () => {
+		if (header) header.toggleAttribute("data-scrolled", window.scrollY > 8);
+	};
+	onScroll();
+	window.addEventListener("scroll", onScroll, { passive: true });
+
+	const links = [...document.querySelectorAll<HTMLAnchorElement>("[data-nav]")];
+	const underline = document.querySelector<HTMLElement>("[data-underline]");
+	const byId = new Map(links.map((l) => [l.dataset.nav, l]));
+
+	const moveUnderlineTo = (link: HTMLElement | null) => {
+		if (!underline) return;
+		if (!link) {
+			underline.removeAttribute("data-on");
+			return;
+		}
+		// Underline the text, inset by the link's horizontal padding (14px).
+		underline.style.width = `${Math.max(0, link.offsetWidth - 28)}px`;
+		underline.style.transform = `translateX(${link.offsetLeft + 14}px)`;
+		underline.setAttribute("data-on", "");
+	};
+
+	const setActive = (link: HTMLElement | null) => {
+		for (const l of links) l.removeAttribute("data-active");
+		link?.setAttribute("data-active", "");
+		moveUnderlineTo(link);
+	};
+
+	const sections = links
+		.map((l) => document.getElementById(l.dataset.nav ?? ""))
+		.filter((el): el is HTMLElement => el !== null);
+
+	if (sections.length) {
+		const io = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (entry.isIntersecting) setActive(byId.get(entry.target.id) ?? null);
+				}
+			},
+			{ rootMargin: "-30% 0px -60% 0px", threshold: 0 },
+		);
+		for (const s of sections) io.observe(s);
+	}
+
+	// Highlight the first section on load (before any scroll), once layout is
+	// ready so the underline measures correctly.
+	requestAnimationFrame(() => setActive(links[0] ?? null));
+
+	// Re-measure the underline on resize so it stays aligned.
+	window.addEventListener("resize", () => {
+		const active = links.find((l) => l.hasAttribute("data-active")) ?? null;
+		moveUnderlineTo(active);
+	});
+</script>

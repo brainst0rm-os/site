@@ -1,0 +1,44 @@
+{
+  "name": "@brainstorm/site",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "typecheck": "astro check && tsc --noEmit",
+    "lint": "biome check .",
+    "format": "biome format --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "size": "size-limit",
+    "waitlist": "bun scripts/list-waitlist.ts"
+  },
+  "dependencies": {
+    "@amplitude/analytics-browser": "^2.44.1",
+    "@astrojs/react": "^3.6.3",
+    "@libsql/client": "^0.17.4",
+    "@react-three/fiber": "^8.17.10",
+    "@react-three/postprocessing": "^2.16.5",
+    "astro": "^4.16.18",
+    "postprocessing": "^6.36.4",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "swiper": "^12.2.0",
+    "three": "^0.170.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@biomejs/biome": "^1.9.0",
+    "@size-limit/file": "^12.1.0",
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.170.0",
+    "@vercel/node": "^5.8.17",
+    "playwright": "^1.60.0",
+    "size-limit": "^12.1.0",
+    "typescript": "^5.6.0",
+    "vitest": "^4.1.7"
+  }
+}

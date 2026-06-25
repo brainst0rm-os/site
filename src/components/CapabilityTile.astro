@@ -1,0 +1,99 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	entry: CollectionEntry<"capabilities">;
+	index: number;
+}
+
+const { entry, index } = Astro.props;
+const number = String(index + 1).padStart(2, "0");
+const href = `/capabilities/${entry.slug}`;
+---
+
+<a class="tile" href={href}>
+	<span class="tile-number mono">{number}</span>
+	<h3 class="tile-title">{entry.data.title}</h3>
+	<p class="tile-summary">{entry.data.summary}</p>
+	<span class="tile-link">
+		<span>Read more</span>
+		<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+			<path
+				d="M3 6h6M6 3l3 3-3 3"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="1.4"
+				stroke-linecap="round"
+				stroke-linejoin="round"></path>
+		</svg>
+	</span>
+</a>
+
+<style>
+	.tile {
+		display: grid;
+		grid-template-rows: auto auto 1fr auto;
+		gap: var(--space-3);
+		padding: var(--space-6) var(--space-5) var(--space-5) 0;
+		border-top: 1px solid var(--hairline);
+		color: inherit;
+		position: relative;
+		transition:
+			border-top-color var(--dur-base) var(--ease-out),
+			padding-left var(--dur-slow) var(--ease-out);
+	}
+	.tile::before {
+		content: "";
+		position: absolute;
+		left: 0;
+		top: -1px;
+		width: 0;
+		height: 1px;
+		background: var(--cyan-glow);
+		transition: width var(--dur-slow) var(--ease-out);
+	}
+	.tile:hover::before,
+	.tile:focus-visible::before {
+		width: 64px;
+	}
+	.tile:hover .tile-title,
+	.tile:focus-visible .tile-title {
+		color: var(--cyan-core);
+	}
+	.tile:hover .tile-link svg,
+	.tile:focus-visible .tile-link svg {
+		transform: translateX(3px);
+	}
+
+	.tile-number {
+		font-size: var(--text-mono);
+		color: var(--cyan-glow);
+		letter-spacing: var(--tracking-eyebrow);
+		text-transform: uppercase;
+	}
+	.tile-title {
+		font-size: var(--text-xl);
+		font-weight: 500;
+		line-height: var(--leading-tight);
+		letter-spacing: var(--tracking-tight);
+		color: var(--paper);
+		text-wrap: balance;
+		transition: color var(--dur-base) var(--ease-out);
+	}
+	.tile-summary {
+		font-size: var(--text-base);
+		line-height: var(--leading-snug);
+		color: var(--fog-2);
+		max-width: 56ch;
+	}
+	.tile-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: var(--text-sm);
+		color: var(--fog-3);
+	}
+	.tile-link svg {
+		transition: transform var(--dur-base) var(--ease-out);
+	}
+</style>

@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+	<defs>
+		<linearGradient id="bg" x1="0.5" y1="0" x2="0.5" y2="1">
+			<stop offset="0%" stop-color="#1b2a44"/>
+			<stop offset="100%" stop-color="#0d1626"/>
+		</linearGradient>
+		<radialGradient id="halo" cx="0.5" cy="0.52" r="0.55">
+			<stop offset="0%" stop-color="#1ea8d6" stop-opacity="0.55"/>
+			<stop offset="55%" stop-color="#1ea8d6" stop-opacity="0.10"/>
+			<stop offset="100%" stop-color="#1ea8d6" stop-opacity="0"/>
+		</radialGradient>
+		<linearGradient id="bolt" x1="0.2" y1="0.05" x2="0.85" y2="0.95">
+			<stop offset="0%" stop-color="#e8fbff"/>
+			<stop offset="35%" stop-color="#a9ecff"/>
+			<stop offset="70%" stop-color="#5cc8ee"/>
+			<stop offset="100%" stop-color="#2b9bd1"/>
+		</linearGradient>
+		<clipPath id="sq">
+			<rect x="0" y="0" width="1024" height="1024" rx="229" ry="229"/>
+		</clipPath>
+	</defs>
+	<g clip-path="url(#sq)">
+		<rect width="1024" height="1024" fill="url(#bg)"/>
+		<rect width="1024" height="1024" fill="url(#halo)"/>
+		<path d="M 600 215 L 348 555 L 488 555 L 424 808 L 676 468 L 536 468 Z" fill="url(#bolt)" stroke="#cdf3ff" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+	</g>
+</svg>

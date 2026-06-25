@@ -1,0 +1,70 @@
+
+<div class="corner-marks" aria-hidden="true">
+	<span class="mark tl"></span>
+	<span class="mark tr"></span>
+	<span class="mark bl"></span>
+	<span class="mark br"></span>
+</div>
+
+<style>
+	.corner-marks {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: var(--z-fixed);
+	}
+	.mark {
+		position: absolute;
+		width: 14px;
+		height: 14px;
+		border-color: var(--hairline-strong);
+		border-style: solid;
+		border-width: 0;
+	}
+	.mark.tl {
+		top: 18px;
+		left: 18px;
+		border-top-width: 1px;
+		border-left-width: 1px;
+	}
+	.mark.tr {
+		top: 18px;
+		right: 18px;
+		border-top-width: 1px;
+		border-right-width: 1px;
+	}
+	.mark.bl {
+		bottom: 18px;
+		left: 18px;
+		border-bottom-width: 1px;
+		border-left-width: 1px;
+	}
+	.mark.br {
+		bottom: 18px;
+		right: 18px;
+		border-bottom-width: 1px;
+		border-right-width: 1px;
+	}
+	@media (max-width: 640px) {
+		.mark {
+			width: 10px;
+			height: 10px;
+		}
+		.mark.tl,
+		.mark.tr {
+			top: 12px;
+		}
+		.mark.bl,
+		.mark.br {
+			bottom: 12px;
+		}
+		.mark.tl,
+		.mark.bl {
+			left: 12px;
+		}
+		.mark.tr,
+		.mark.br {
+			right: 12px;
+		}
+	}
+</style>
