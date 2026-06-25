@@ -299,11 +299,11 @@ const roadmap = [
 				90deg,
 				var(--bg-deep) 0%,
 				var(--bg-deep) 34%,
-				rgba(253, 244, 246, 0.86) 50%,
-				rgba(253, 244, 246, 0.4) 66%,
+				color-mix(in srgb, var(--bg-deep) 86%, transparent) 50%,
+				color-mix(in srgb, var(--bg-deep) 40%, transparent) 66%,
 				transparent 82%
 			),
-			linear-gradient(180deg, transparent 55%, rgba(253, 244, 246, 0.45) 100%);
+			linear-gradient(180deg, transparent 55%, color-mix(in srgb, var(--bg-deep) 45%, transparent) 100%);
 	}
 	.hero-shapes {
 		position: absolute;
@@ -531,7 +531,7 @@ const roadmap = [
 		flex-direction: column;
 		gap: var(--space-3);
 		padding: var(--space-5);
-		background: rgba(255, 255, 255, 0.5);
+		background: var(--surface-card);
 		border: 1px solid var(--hairline);
 		border-radius: 16px;
 		transition:
@@ -540,9 +540,9 @@ const roadmap = [
 			box-shadow var(--dur-base) var(--ease-out);
 	}
 	.pillar:hover {
-		border-color: rgba(225, 29, 72, 0.35);
+		border-color: var(--accent-border);
 		transform: translateY(-3px);
-		box-shadow: 0 16px 40px rgba(58, 31, 41, 0.08);
+		box-shadow: var(--card-shadow);
 	}
 	.pillar-glyph {
 		display: inline-flex;
@@ -551,8 +551,11 @@ const roadmap = [
 		align-items: center;
 		justify-content: center;
 		border-radius: 12px;
-		background: rgba(225, 29, 72, 0.07);
+		background: var(--accent-soft);
 		margin-bottom: var(--space-2);
+	}
+	.pillar-glyph :global(.geo) {
+		opacity: 0.85;
 	}
 	.pillar-title {
 		font-size: var(--text-xl);
@@ -628,7 +631,7 @@ const roadmap = [
 		flex-direction: column;
 		gap: var(--space-2);
 		padding: var(--space-5);
-		background: rgba(255, 255, 255, 0.5);
+		background: var(--surface-card);
 		border: 1px solid var(--hairline);
 		border-radius: 14px;
 		transition:
@@ -637,9 +640,9 @@ const roadmap = [
 			box-shadow var(--dur-base) var(--ease-out);
 	}
 	.cap:hover {
-		border-color: rgba(225, 29, 72, 0.32);
+		border-color: var(--accent-border);
 		transform: translateY(-2px);
-		box-shadow: 0 14px 34px rgba(58, 31, 41, 0.07);
+		box-shadow: var(--card-shadow);
 	}
 	.cap-top {
 		display: flex;

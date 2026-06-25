@@ -28,6 +28,12 @@
 	--header-bg: rgba(253, 244, 246, 0.94);
 	--header-bg-scrolled: rgba(253, 244, 246, 0.97);
 
+	/* elevated card surfaces + soft-accent fills (theme-aware) */
+	--surface-card: rgba(255, 255, 255, 0.5);
+	--accent-soft: rgba(225, 29, 72, 0.07);
+	--accent-border: rgba(225, 29, 72, 0.33);
+	--card-shadow: 0 16px 40px rgba(58, 31, 41, 0.08);
+
 	/* spacing — 8pt scale */
 	--space-1: 4px;
 	--space-2: 8px;
@@ -126,6 +132,11 @@
 
 	--header-bg: rgba(10, 16, 32, 0.94);
 	--header-bg-scrolled: rgba(10, 16, 32, 0.97);
+
+	--surface-card: rgba(180, 200, 255, 0.05);
+	--accent-soft: rgba(56, 189, 248, 0.14);
+	--accent-border: rgba(56, 189, 248, 0.4);
+	--card-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
 }
 
 @media (prefers-reduced-motion: reduce) {
