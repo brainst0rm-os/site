@@ -17,8 +17,20 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toStri
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<script is:inline>
+			(() => {
+				const stored = localStorage.getItem("theme");
+				const theme =
+					stored === "light" || stored === "dark"
+						? stored
+						: matchMedia("(prefers-color-scheme: dark)").matches
+							? "dark"
+							: "light";
+				document.documentElement.dataset.theme = theme;
+				document.documentElement.style.colorScheme = theme;
+			})();
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="color-scheme" content="light" />
 		<meta name="theme-color" content="#fdf4f6" />
 		<meta name="generator" content={Astro.generator} />
 		<meta

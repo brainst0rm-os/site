@@ -44,7 +44,7 @@
 .prose a {
 	color: var(--cyan-core);
 	text-decoration: underline;
-	text-decoration-color: rgba(225, 29, 72, 0.4);
+	text-decoration-color: color-mix(in srgb, var(--cyan-core) 40%, transparent);
 	text-underline-offset: 3px;
 	transition: text-decoration-color var(--dur-base) var(--ease-out);
 }

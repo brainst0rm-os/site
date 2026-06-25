@@ -24,6 +24,10 @@
 	--hairline: rgba(58, 31, 41, 0.1);
 	--hairline-strong: rgba(58, 31, 41, 0.18);
 
+	/* header surface — near-opaque so hero content never bleeds through */
+	--header-bg: rgba(253, 244, 246, 0.94);
+	--header-bg-scrolled: rgba(253, 244, 246, 0.97);
+
 	/* spacing — 8pt scale */
 	--space-1: 4px;
 	--space-2: 8px;
@@ -95,6 +99,33 @@
 	--font-mono: ui-monospace, "JetBrains Mono", "SF Mono", Menlo, Consolas, "Liberation Mono",
 		monospace;
 	--font-serif: "Instrument Serif", ui-serif, Georgia, "Times New Roman", serif;
+}
+
+/* Dark theme = Midnight (the product's cool navy/cyan dark theme). Token NAMES
+   are kept; only VALUES swap — the `--cyan-*` family becomes cyan, surfaces go
+   navy, ink goes light. Mirrors packages/tokens/src/themes.ts (midnight). */
+:root[data-theme="dark"] {
+	--bg-deep: #0a1020;
+	--bg-mid: #121a30;
+	--bg-edge: #1a2440;
+
+	--paper: #e7eef9;
+
+	--cyan-core: #bae6fd;
+	--cyan-bright: #7dd3fc;
+	--cyan-mid: #38bdf8;
+	--cyan-deep: #0ea5e9;
+	--cyan-glow: #38bdf8;
+
+	--fog-1: rgba(231, 238, 249, 0.42);
+	--fog-2: rgba(231, 238, 249, 0.62);
+	--fog-3: rgba(231, 238, 249, 0.82);
+
+	--hairline: rgba(180, 200, 255, 0.1);
+	--hairline-strong: rgba(180, 200, 255, 0.18);
+
+	--header-bg: rgba(10, 16, 32, 0.94);
+	--header-bg-scrolled: rgba(10, 16, 32, 0.97);
 }
 
 @media (prefers-reduced-motion: reduce) {
