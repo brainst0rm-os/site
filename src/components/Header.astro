@@ -1,6 +1,6 @@
 ---
 import BrandMark from "~/components/BrandMark.astro";
-import { SITE_NAME, nav } from "~/content/site";
+import { SITE_NAME, links, nav } from "~/content/site";
 ---
 
 <header class="site-header" data-header>
@@ -21,7 +21,10 @@ import { SITE_NAME, nav } from "~/content/site";
 			<span class="nav-underline" data-underline aria-hidden="true"></span>
 		</nav>
 
-		<a href="#waitlist" class="nav-cta">Join the waitlist</a>
+		<div class="actions">
+			<a href={links.docs} class="nav-docs">Docs</a>
+			<a href="#waitlist" class="nav-cta">Join the waitlist</a>
+		</div>
 	</div>
 </header>
 
@@ -101,6 +104,23 @@ import { SITE_NAME, nav } from "~/content/site";
 	.nav-underline[data-on] {
 		opacity: 1;
 	}
+	.actions {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		flex-shrink: 0;
+	}
+	.nav-docs {
+		color: var(--fog-2);
+		padding: 7px 14px;
+		border-radius: var(--radius-1);
+		font-size: var(--text-sm);
+		white-space: nowrap;
+		transition: color var(--dur-base) var(--ease-out);
+	}
+	.nav-docs:hover {
+		color: var(--paper);
+	}
 	.nav-cta {
 		flex-shrink: 0;
 		display: inline-flex;
@@ -130,6 +150,9 @@ import { SITE_NAME, nav } from "~/content/site";
 	/* Keep the wordmark on small screens — the brand needs a name, and with the
 	   nav hidden there's room. Trim the CTA so both fit on narrow phones. */
 	@media (max-width: 380px) {
+		.nav-docs {
+			display: none;
+		}
 		.nav-cta {
 			padding: 8px 12px;
 		}

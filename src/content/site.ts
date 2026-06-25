@@ -11,7 +11,7 @@ export const SITE_URL = "https://getbrainstorm.online";
 export const links = {
 	github: "https://github.com/brainst0rm-os",
 	repo: "https://github.com/brainst0rm-os/shell",
-	docs: "https://github.com/brainst0rm-os/shell#readme",
+	docs: "https://docs.getbrainstorm.online",
 	// Download endpoints — wired in V1-X when the release surface lands.
 	download: {
 		mac: "/download/mac",
