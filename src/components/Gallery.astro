@@ -23,9 +23,20 @@ const first = screenshots[0] ?? { app: "", title: "", caption: "" };
 									aria-label={`View ${shot.app}: ${shot.title} fullscreen`}
 								>
 									<img
+										class="shot-img shot-img--light"
 										src={shot.src}
 										alt={`${shot.app}: ${shot.title}`}
 										loading={i === 0 ? "eager" : "lazy"}
+										decoding="async"
+										width="1100"
+										height="720"
+										draggable="false"
+									/>
+									<img
+										class="shot-img shot-img--dark"
+										src={shot.src.replace("/screenshots/", "/screenshots/midnight/")}
+										alt={`${shot.app}: ${shot.title}`}
+										loading="lazy"
 										decoding="async"
 										width="1100"
 										height="720"
@@ -95,8 +106,16 @@ const first = screenshots[0] ?? { app: "", title: "", caption: "" };
 										<i /> <i /> <i />
 									</span>
 									<img
-										class="lb-img"
+										class="lb-img shot-img shot-img--light"
 										src={shot.src}
+										alt={`${shot.app}: ${shot.title}`}
+										loading="lazy"
+										decoding="async"
+										draggable="false"
+									/>
+									<img
+										class="lb-img shot-img shot-img--dark"
+										src={shot.src.replace("/screenshots/", "/screenshots/midnight/")}
 										alt={`${shot.app}: ${shot.title}`}
 										loading="lazy"
 										decoding="async"
@@ -225,6 +244,21 @@ const first = screenshots[0] ?? { app: "", title: "", caption: "" };
 		   (it's cropped from the right instead of both sides). */
 		object-position: top left;
 		user-select: none;
+	}
+
+	/* Screenshots swap with the site theme: Rose captures in light, Midnight
+	   captures (stormy-sea wallpaper) in dark. */
+	.car-slide .shot-img--dark,
+	.lb-window .shot-img--dark {
+		display: none;
+	}
+	:global([data-theme="dark"]) .car-slide .shot-img--light,
+	:global([data-theme="dark"]) .lb-window .shot-img--light {
+		display: none;
+	}
+	:global([data-theme="dark"]) .car-slide .shot-img--dark,
+	:global([data-theme="dark"]) .lb-window .shot-img--dark {
+		display: block;
 	}
 
 	/* Inline arrows overlay the picture edges and only appear on hover —
