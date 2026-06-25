@@ -19,8 +19,8 @@ const { size = 22, class: className } = Astro.props;
 >
 	<defs>
 		<linearGradient id="bm-mini-bg" x1="0.5" y1="0" x2="0.5" y2="1">
-			<stop offset="0%" stop-color="#fb7185"></stop>
-			<stop offset="100%" stop-color="#be123c"></stop>
+			<stop offset="0%" style="stop-color: var(--mark-bg-top, #fb7185)"></stop>
+			<stop offset="100%" style="stop-color: var(--mark-bg-bottom, #be123c)"></stop>
 		</linearGradient>
 		<radialGradient id="bm-mini-halo" cx="0.5" cy="0.42" r="0.55">
 			<stop offset="0%" stop-color="#ffffff" stop-opacity="0.45"></stop>
@@ -28,7 +28,7 @@ const { size = 22, class: className } = Astro.props;
 		</radialGradient>
 		<linearGradient id="bm-mini-bolt" x1="0.2" y1="0" x2="0.8" y2="1">
 			<stop offset="0%" stop-color="#ffffff"></stop>
-			<stop offset="100%" stop-color="#ffe4ec"></stop>
+			<stop offset="100%" style="stop-color: var(--mark-bolt-bottom, #ffe4ec)"></stop>
 		</linearGradient>
 	</defs>
 	<rect width="64" height="64" rx="14" fill="url(#bm-mini-bg)"></rect>

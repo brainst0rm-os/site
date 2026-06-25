@@ -24,9 +24,9 @@
 	--hairline: rgba(58, 31, 41, 0.1);
 	--hairline-strong: rgba(58, 31, 41, 0.18);
 
-	/* header surface — near-opaque so hero content never bleeds through */
-	--header-bg: rgba(253, 244, 246, 0.94);
-	--header-bg-scrolled: rgba(253, 244, 246, 0.97);
+	/* header surface — translucent glass (strong blur frosts content behind it) */
+	--header-bg: rgba(253, 244, 246, 0.62);
+	--header-bg-scrolled: rgba(253, 244, 246, 0.8);
 
 	/* elevated card surfaces + soft-accent fills (theme-aware) */
 	--surface-card: rgba(255, 255, 255, 0.5);
@@ -130,13 +130,18 @@
 	--hairline: rgba(180, 200, 255, 0.1);
 	--hairline-strong: rgba(180, 200, 255, 0.18);
 
-	--header-bg: rgba(10, 16, 32, 0.94);
-	--header-bg-scrolled: rgba(10, 16, 32, 0.97);
+	--header-bg: rgba(10, 16, 32, 0.6);
+	--header-bg-scrolled: rgba(10, 16, 32, 0.8);
 
 	--surface-card: rgba(180, 200, 255, 0.05);
 	--accent-soft: rgba(56, 189, 248, 0.14);
 	--accent-border: rgba(56, 189, 248, 0.4);
 	--card-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+
+	/* Brand mark goes navy in Midnight (rose by default in light) */
+	--mark-bg-top: #2c4a78;
+	--mark-bg-bottom: #122644;
+	--mark-bolt-bottom: #cfe0f5;
 }
 
 @media (prefers-reduced-motion: reduce) {
