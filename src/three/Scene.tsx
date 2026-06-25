@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Arcs, type ArcsHandle } from "./Arcs";
 import { CentralForm } from "./CentralForm";
-import { PaletteContext, type ScenePalette, usePalette } from "./palette";
 import { Particles } from "./Particles";
 import { Shards } from "./Shards";
+import { PaletteContext, type ScenePalette, usePalette } from "./palette";
 
 function detectMobile(): boolean {
 	if (typeof window === "undefined") return false;
