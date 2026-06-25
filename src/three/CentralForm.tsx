@@ -2,6 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
 import { noise3D } from "./noise";
+import { usePalette } from "./palette";
 
 interface Uniforms {
 	uTime: { value: number };
@@ -52,6 +53,7 @@ interface Props {
 }
 
 export function CentralForm({ onSpike, detail = 32, reduced = false }: Props) {
+	const palette = usePalette();
 	const solidRef = useRef<THREE.Mesh>(null);
 	const wireRef = useRef<THREE.LineSegments>(null);
 	const coreRef = useRef<THREE.Mesh>(null);
@@ -136,7 +138,7 @@ export function CentralForm({ onSpike, detail = 32, reduced = false }: Props) {
 			<mesh ref={solidRef} geometry={geom} castShadow receiveShadow>
 				<meshStandardMaterial
 					ref={solidMatRef}
-					color="#be123c"
+					color={palette.formA}
 					roughness={0.34}
 					metalness={0.18}
 					flatShading
@@ -148,7 +150,7 @@ export function CentralForm({ onSpike, detail = 32, reduced = false }: Props) {
 			<lineSegments ref={wireRef} geometry={wireGeom}>
 				<lineBasicMaterial
 					ref={wireMatRef}
-					color="#9f1239"
+					color={palette.formB}
 					transparent
 					opacity={0.45}
 					blending={THREE.AdditiveBlending}
@@ -161,7 +163,7 @@ export function CentralForm({ onSpike, detail = 32, reduced = false }: Props) {
 				<sphereGeometry args={[0.42, 24, 24]} />
 				<meshBasicMaterial
 					ref={coreMatRef}
-					color="#e11d48"
+					color={palette.formC}
 					transparent
 					opacity={0.55}
 					blending={THREE.AdditiveBlending}

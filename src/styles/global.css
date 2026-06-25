@@ -66,8 +66,8 @@ body {
 	inset: -32% -20%;
 	background: radial-gradient(
 		circle at 50% 50%,
-		rgba(225, 29, 72, 0.12) 0%,
-		rgba(225, 29, 72, 0.04) 35%,
+		color-mix(in srgb, var(--cyan-glow) 12%, transparent) 0%,
+		color-mix(in srgb, var(--cyan-glow) 4%, transparent) 35%,
 		transparent 65%
 	);
 	z-index: -1;

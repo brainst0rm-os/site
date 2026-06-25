@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { forwardRef, useImperativeHandle, useMemo, useRef } from "react";
 import * as THREE from "three";
+import { usePalette } from "./palette";
 
 const MAX_ACTIVE = 6;
 const WAYPOINTS = 18;
@@ -26,6 +27,7 @@ interface Props {
 }
 
 export const Arcs = forwardRef<ArcsHandle, Props>(({ reduced = false }, ref) => {
+	const palette = usePalette();
 	const slots = useRef<ArcSlot[]>(
 		Array.from({ length: MAX_ACTIVE }, () => ({
 			active: false,
@@ -164,7 +166,7 @@ export const Arcs = forwardRef<ArcsHandle, Props>(({ reduced = false }, ref) => 
 						ref={(el) => {
 							matRefs.current[i] = el;
 						}}
-						color="#fb7185"
+						color={palette.arc}
 						transparent
 						opacity={0}
 						blending={THREE.AdditiveBlending}

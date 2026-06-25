@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
+import { usePalette } from "./palette";
 
 interface Shard {
 	radius: number;
@@ -27,6 +28,7 @@ const PLANE_TILTS = [
 ];
 
 export function Shards({ count = 22, reduced = false, exposeShardPositions }: Props) {
+	const palette = usePalette();
 	const groupRef = useRef<THREE.Group>(null);
 	const meshRefs = useRef<(THREE.Mesh | null)[]>([]);
 	const positionsRef = useRef<THREE.Vector3[]>([]);
@@ -96,8 +98,8 @@ export function Shards({ count = 22, reduced = false, exposeShardPositions }: Pr
 					{/* Subtle cyan emissive so shadow-side faces aren't pure black
 					    silhouettes against the navy page background. */}
 					<meshStandardMaterial
-						color="#be123c"
-						emissive="#e11d48"
+						color={palette.shard}
+						emissive={palette.shardEmissive}
 						emissiveIntensity={0.08}
 						roughness={0.45}
 						metalness={0.18}

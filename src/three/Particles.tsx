@@ -1,6 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import * as THREE from "three";
+import { usePalette } from "./palette";
 
 interface Props {
 	count?: number;
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export function Particles({ count = 220, radius = 5 }: Props) {
+	const palette = usePalette();
 	const pointsRef = useRef<THREE.Points>(null);
 
 	const { positions, sizes } = useMemo(() => {
@@ -42,7 +44,7 @@ export function Particles({ count = 220, radius = 5 }: Props) {
 		return new THREE.ShaderMaterial({
 			uniforms: {
 				uTime: { value: 0 },
-				uColor: { value: new THREE.Color("#be123c") },
+				uColor: { value: new THREE.Color(palette.particle) },
 			},
 			vertexShader: /* glsl */ `
 				attribute float size;
@@ -73,7 +75,7 @@ export function Particles({ count = 220, radius = 5 }: Props) {
 			blending: THREE.AdditiveBlending,
 			depthWrite: false,
 		});
-	}, []);
+	}, [palette.particle]);
 
 	useFrame((state) => {
 		const u = mat.uniforms.uTime;

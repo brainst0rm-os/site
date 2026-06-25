@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import BrandMark from "~/components/BrandMark.astro";
 import CornerMarks from "~/components/CornerMarks.astro";
 import Divider from "~/components/Divider.astro";
 import Footer from "~/components/Footer.astro";
@@ -106,10 +105,6 @@ const roadmap = [
 
 			<div class="container">
 				<div class="hero-inner">
-				<a class="hero-brand" href="#top" aria-label={SITE_NAME}>
-					<BrandMark size={56} class="hero-mark" />
-				</a>
-
 				<p class="hero-eyebrow eyebrow">
 					<span class="diamond" aria-hidden="true">◇</span> Local-first · AI-native
 				</p>

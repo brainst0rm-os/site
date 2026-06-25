@@ -1,6 +1,12 @@
 import { Suspense, lazy, useEffect, useRef, useState } from "react";
+import { getScenePalette } from "~/three/palette";
 
 const Scene = lazy(() => import("~/three/Scene"));
+
+function currentTheme(): string {
+	if (typeof document === "undefined") return "light";
+	return document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+}
 
 function shouldLoadScene(): boolean {
 	if (typeof window === "undefined") return false;
@@ -21,10 +27,21 @@ export default function HeroScene() {
 	// Pause the render loop once the hero scrolls out of view (or the tab is
 	// hidden) — a continuous WebGL loop behind the rest of the page is wasted GPU.
 	const [active, setActive] = useState(true);
+	const [theme, setTheme] = useState(currentTheme);
 	const wrapRef = useRef<HTMLDivElement>(null);
 
 	useEffect(() => {
 		setLoad(shouldLoadScene());
+	}, []);
+
+	// Recolour the crystal when the site theme flips (rose ↔ midnight).
+	useEffect(() => {
+		const root = document.documentElement;
+		const update = () => setTheme(currentTheme());
+		update();
+		const mo = new MutationObserver(update);
+		mo.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+		return () => mo.disconnect();
 	}, []);
 
 	useEffect(() => {
@@ -48,7 +65,7 @@ export default function HeroScene() {
 		<div ref={wrapRef} style={{ width: "100%", height: "100%", position: "relative" }}>
 			{load && (
 				<Suspense fallback={null}>
-					<Scene active={active} />
+					<Scene key={theme} active={active} palette={getScenePalette(theme)} />
 				</Suspense>
 			)}
 		</div>

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { Arcs, type ArcsHandle } from "./Arcs";
 import { CentralForm } from "./CentralForm";
+import { PaletteContext, type ScenePalette, usePalette } from "./palette";
 import { Particles } from "./Particles";
 import { Shards } from "./Shards";
 
@@ -50,6 +51,7 @@ interface SceneBodyProps {
 }
 
 function SceneBody({ mobile, reduced }: SceneBodyProps) {
+	const palette = usePalette();
 	const arcsRef = useRef<ArcsHandle>(null);
 	const shardPositionsRef = useRef<THREE.Vector3[]>([]);
 	const pointLightRef = useRef<THREE.PointLight>(null);
@@ -137,7 +139,7 @@ function SceneBody({ mobile, reduced }: SceneBodyProps) {
 			    Ambient + point intensity also pulse on the periodic storm
 			    flash (see SceneBody useFrame). */}
 			<ambientLight ref={ambientRef} intensity={0.22} />
-			<hemisphereLight args={["#be123c", "#f7dde4", 0.55]} />
+			<hemisphereLight args={[palette.hemiSky, palette.hemiGround, 0.55]} />
 
 			<directionalLight
 				position={[3.2, 4.8, 2.2]}
@@ -150,12 +152,12 @@ function SceneBody({ mobile, reduced }: SceneBodyProps) {
 				shadow-camera-far={12}
 				shadow-bias={-0.0005}
 			/>
-			<directionalLight position={[-3, 1.4, -2.5]} intensity={1.4} color="#9f1239" />
+			<directionalLight position={[-3, 1.4, -2.5]} intensity={1.4} color={palette.fillBack} />
 			<pointLight
 				ref={pointLightRef}
 				position={[0, 0, 0]}
 				intensity={1.8}
-				color="#e11d48"
+				color={palette.pointCore}
 				distance={4}
 				decay={2}
 			/>
@@ -192,7 +194,10 @@ function SceneBody({ mobile, reduced }: SceneBodyProps) {
 	);
 }
 
-export default function Scene({ active = true }: { active?: boolean }) {
+export default function Scene({
+	active = true,
+	palette,
+}: { active?: boolean; palette: ScenePalette }) {
 	const [mobile, setMobile] = useState(false);
 	const [reduced, setReduced] = useState(false);
 	const [dpr, setDpr] = useState(1);
@@ -232,10 +237,12 @@ export default function Scene({ active = true }: { active?: boolean }) {
 				gl.toneMappingExposure = 1.05;
 				// Fog matches the page background gradient's deepest stop so the
 				// orbiting shards fade into the page rather than being silhouettes.
-				scene.fog = new THREE.Fog("#fdf4f6", 4, 11);
+				scene.fog = new THREE.Fog(palette.fog, 4, 11);
 			}}
 		>
-			<SceneBody mobile={mobile} reduced={reduced} />
+			<PaletteContext.Provider value={palette}>
+				<SceneBody mobile={mobile} reduced={reduced} />
+			</PaletteContext.Provider>
 		</Canvas>
 	);
 }
