@@ -288,14 +288,23 @@ const first = screenshots[0] ?? { app: "", title: "", caption: "" };
 			border-color var(--dur-base) var(--ease-out),
 			opacity var(--dur-base) var(--ease-out);
 	}
-	/* Overlay the frame edges rather than bleeding into the gutter — sitting
-	   outside the frame pushed past the viewport and caused horizontal scroll
-	   on any window narrower than the centered content. */
+	/* On wide desktops the arrows sit OUTSIDE the frame (in the gutter); on
+	   narrower windows there isn't room, so they overlay the edges instead —
+	   sitting outside there pushed past the viewport and caused horizontal
+	   scroll. */
 	.car-arrow--prev {
-		left: 12px;
+		left: -60px;
 	}
 	.car-arrow--next {
-		right: 12px;
+		right: -60px;
+	}
+	@media (max-width: 1200px) {
+		.car-arrow--prev {
+			left: 12px;
+		}
+		.car-arrow--next {
+			right: 12px;
+		}
 	}
 	.stage:hover .car-arrow,
 	.car-arrow:focus-visible {
