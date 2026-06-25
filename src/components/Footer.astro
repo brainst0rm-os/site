@@ -1,6 +1,6 @@
 ---
 import BrandMark from "~/components/BrandMark.astro";
-import { SITE_NAME } from "~/content/site";
+import { SITE_NAME, links } from "~/content/site";
 
 const year = new Date().getFullYear();
 
@@ -29,11 +29,15 @@ const footerLinks = [
 
 			<nav class="links" aria-label="Footer">
 				{footerLinks.map((l) => <a href={l.href}>{l.label}</a>)}
+				<a href={links.repo} target="_blank" rel="noopener noreferrer">GitHub</a>
 			</nav>
 		</div>
 
 		<div class="footer-meta">
 			<p class="copyright mono">© {year} {SITE_NAME}</p>
+			<a class="source mono" href={links.repo} target="_blank" rel="noopener noreferrer">
+				Source-available · FSL-1.1
+			</a>
 		</div>
 	</div>
 </footer>
@@ -98,11 +102,18 @@ const footerLinks = [
 		flex-wrap: wrap;
 	}
 	.copyright,
-	.privacy {
+	.privacy,
+	.source {
 		font-size: var(--text-mono);
 		color: var(--fog-1);
 		letter-spacing: var(--tracking-eyebrow);
 		text-transform: uppercase;
 		margin: 0;
+	}
+	.source {
+		transition: color var(--dur-base) var(--ease-out);
+	}
+	.source:hover {
+		color: var(--cyan-core);
 	}
 </style>

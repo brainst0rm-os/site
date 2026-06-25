@@ -9,15 +9,9 @@ export const SITE_NAME = "Brainstorm";
 export const SITE_URL = "https://getbrainstorm.online";
 
 export const links = {
-	github: "https://github.com/brainstorm-app",
-	repo: "https://github.com/brainstorm-app/brainstorm",
-	docs: "https://github.com/brainstorm-app/brainstorm/tree/main/docs",
-	architecture:
-		"https://github.com/brainstorm-app/brainstorm/blob/main/docs/foundations/02-architecture.md",
-	vision: "https://github.com/brainstorm-app/brainstorm/blob/main/docs/foundations/01-vision.md",
-	plan: "https://github.com/brainstorm-app/brainstorm/blob/main/docs/implementation-plan.md",
-	openQuestions:
-		"https://github.com/brainstorm-app/brainstorm/blob/main/docs/reference/11-open-questions.md",
+	github: "https://github.com/brainst0rm-os",
+	repo: "https://github.com/brainst0rm-os/shell",
+	docs: "https://github.com/brainst0rm-os/shell#readme",
 	// Download endpoints — wired in V1-X when the release surface lands.
 	download: {
 		mac: "/download/mac",

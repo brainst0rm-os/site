@@ -1,7 +1,7 @@
 /**
  * The product carousel. Real captures of the current build — a small design
  * studio's vault, in the Rose theme — not mockups. Curated from the dogfood
- * Playwright harness; see ../../brainstorm/tests/dogfood/sessions.
+ * Playwright harness; see ../../../tests/dogfood/sessions.
  */
 
 export interface Shot {
