@@ -280,6 +280,10 @@ import { SITE_NAME, links, nav } from "~/content/site";
 		const next = root.dataset.theme === "dark" ? "light" : "dark";
 		root.dataset.theme = next;
 		root.style.colorScheme = next;
-		localStorage.setItem("theme", next);
+		// Shared across subdomains so the docs match.
+		const dom = location.hostname.endsWith("getbrainstorm.online")
+			? "; domain=.getbrainstorm.online"
+			: "";
+		document.cookie = `bs-theme=${next}; path=/; max-age=31536000; samesite=lax${dom}`;
 	});
 </script>

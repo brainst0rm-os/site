@@ -32,20 +32,21 @@ export const ROSE: ScenePalette = {
 	particle: "#be123c",
 };
 
-/** Midnight — the dark theme: cool navy/cyan crystal. */
+/** Midnight — the dark theme. The original blue-site look: an icy near-white
+   crystal lit by cyan, on navy. Cyan family from the icon (icon.svg boltGrad). */
 export const MIDNIGHT: ScenePalette = {
-	hemiSky: "#1e6fa8",
-	hemiGround: "#bfe3f5",
-	fillBack: "#1e4f7a",
-	pointCore: "#38bdf8",
+	hemiSky: "#cfe8f7",
+	hemiGround: "#16243f",
+	fillBack: "#2b9bd1",
+	pointCore: "#1ea8d6",
 	fog: "#0a1020",
-	formA: "#2b9bd1",
-	formB: "#1e5f8f",
-	formC: "#5cc8ee",
-	shard: "#2b9bd1",
-	shardEmissive: "#38bdf8",
-	arc: "#7dd3fc",
-	particle: "#38bdf8",
+	formA: "#bcd6ee",
+	formB: "#5cc8ee",
+	formC: "#e8fbff",
+	shard: "#bcd6ee",
+	shardEmissive: "#1ea8d6",
+	arc: "#5cc8ee",
+	particle: "#9ecbe8",
 };
 
 export function getScenePalette(theme: string | undefined): ScenePalette {

@@ -19,13 +19,14 @@ const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toStri
 		<meta charset="utf-8" />
 		<script is:inline>
 			(() => {
-				const stored = localStorage.getItem("theme");
-				const theme =
-					stored === "light" || stored === "dark"
-						? stored
-						: matchMedia("(prefers-color-scheme: dark)").matches
-							? "dark"
-							: "light";
+				// Theme is shared across getbrainstorm.online subdomains via a cookie
+				// so the docs open in whatever theme the site is in (and vice-versa).
+				const m = document.cookie.match(/(?:^|; )bs-theme=(light|dark)/);
+				const theme = m
+					? m[1]
+					: matchMedia("(prefers-color-scheme: dark)").matches
+						? "dark"
+						: "light";
 				document.documentElement.dataset.theme = theme;
 				document.documentElement.style.colorScheme = theme;
 			})();
