@@ -270,8 +270,10 @@ const roadmap = [
 		position: absolute;
 		inset: 0;
 		z-index: 0;
-		opacity: 0.85;
-		transform: translateX(15%) scale(1.05);
+		opacity: calc(0.85 - var(--hero-dim, 0) * 0.57);
+		transform: translateX(15%) scale(calc(1.05 - var(--hero-dim, 0) * 0.05))
+			translateY(calc(var(--hero-dim, 0) * -3%));
+		will-change: opacity, transform;
 		-webkit-mask: radial-gradient(ellipse 62% 70% at 66% 48%, black 42%, transparent 100%);
 		mask: radial-gradient(ellipse 62% 70% at 66% 48%, black 42%, transparent 100%);
 	}
@@ -788,4 +790,31 @@ const roadmap = [
 		color: var(--fog-1);
 		margin-top: var(--space-2);
 	}
+	@media (prefers-reduced-motion: reduce) {
+		.scene-bleed {
+			transform: translateX(15%) scale(1.05);
+		}
+	}
 </style>
+
+<script>
+	// Drive the hero's scroll reaction: a 0..1 progress over the first viewport
+	// the crystal (CSS) and camera (3D) read to recede as you scroll.
+	let ticking = false;
+	const setDim = () => {
+		const dim = Math.min(1, window.scrollY / Math.max(1, window.innerHeight * 0.9));
+		document.documentElement.style.setProperty("--hero-dim", String(dim));
+		ticking = false;
+	};
+	window.addEventListener(
+		"scroll",
+		() => {
+			if (!ticking) {
+				ticking = true;
+				requestAnimationFrame(setDim);
+			}
+		},
+		{ passive: true },
+	);
+	setDim();
+</script>

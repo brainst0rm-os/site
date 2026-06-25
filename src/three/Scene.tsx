@@ -7,6 +7,7 @@ import { CentralForm } from "./CentralForm";
 import { Particles } from "./Particles";
 import { Shards } from "./Shards";
 import { PaletteContext, type ScenePalette, usePalette } from "./palette";
+import { getHeroDim } from "./scroll";
 
 function detectMobile(): boolean {
 	if (typeof window === "undefined") return false;
@@ -32,9 +33,13 @@ function CameraRig({ touchOnly }: { touchOnly: boolean }) {
 		const t = state.clock.elapsedTime;
 		const px = touchOnly ? Math.sin(t * 0.18) * 0.6 : pointer.current.x;
 		const py = touchOnly ? Math.cos(t * 0.13) * 0.5 : pointer.current.y;
+		// Scroll recedes the crystal: it lifts and pulls back into the page as a
+		// quiet background presence (eased so the motion settles, not linear).
+		const dim = getHeroDim();
+		const ease = dim * dim * (3 - 2 * dim);
 		const targetX = px * 0.55;
-		const targetY = 0.15 + py * 0.4;
-		const targetZ = 4.8;
+		const targetY = 0.15 + py * 0.4 + ease * 0.9;
+		const targetZ = 4.8 + ease * 2.2;
 		const k = Math.min(1, delta * 1.6);
 		state.camera.position.x += (targetX - state.camera.position.x) * k;
 		state.camera.position.y += (targetY - state.camera.position.y) * k;
