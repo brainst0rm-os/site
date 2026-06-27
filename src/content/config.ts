@@ -1,4 +1,5 @@
 import { defineCollection, z } from "astro:content";
+import { Platform, ReleaseChannel } from "~/content/releases";
 
 const capabilities = defineCollection({
 	type: "content",
@@ -80,9 +81,32 @@ const compare = defineCollection({
 	}),
 });
 
+const releases = defineCollection({
+	type: "content",
+	schema: z.object({
+		date: z.coerce.date(),
+		version: z.string(),
+		channel: z.enum([ReleaseChannel.Stable, ReleaseChannel.Beta]).default(ReleaseChannel.Stable),
+		status: z.enum(["draft", "published"]).default("published"),
+		summary: z.string().min(20),
+		highlights: z.array(z.string()).default([]),
+		assets: z
+			.array(
+				z.object({
+					platform: z.enum([Platform.Mac, Platform.Windows, Platform.Linux]),
+					label: z.string(),
+					href: z.string().url(),
+					size: z.string().optional(),
+				}),
+			)
+			.default([]),
+	}),
+});
+
 export const collections = {
 	capabilities,
 	changelog,
+	releases,
 	blog,
 	tutorials,
 	segments,

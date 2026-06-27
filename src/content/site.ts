@@ -12,12 +12,8 @@ export const links = {
 	github: "https://github.com/brainst0rm-os",
 	repo: "https://github.com/brainst0rm-os/shell",
 	docs: "https://docs.getbrainstorm.online",
-	// Download endpoints — wired in V1-X when the release surface lands.
-	download: {
-		mac: "/download/mac",
-		windows: "/download/windows",
-		linux: "/download/linux",
-	},
+	// The downloads page lists every release with per-platform builds.
+	downloads: "/downloads",
 } as const;
 
 export const nav = [

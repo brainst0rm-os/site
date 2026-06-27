@@ -21,6 +21,7 @@ export const GET: APIRoute = async () => {
 		"## Pages",
 		"",
 		`- [${SITE_NAME} — home](${SITE_URL}/): overview, screenshots, how it works, the roadmap, and the waitlist`,
+		`- [Downloads](${SITE_URL}/downloads): desktop builds for macOS, Windows, and Linux; every release is posted here`,
 		"",
 		"## How it works",
 		"",

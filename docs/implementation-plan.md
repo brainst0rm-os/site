@@ -153,9 +153,11 @@ brainstorm-site/
 │   │   ├── compare/                ← /compare/<slug> per-product pages
 │   │   ├── segments/               ← per-audience landing copy
 │   │   ├── blog/                   ← design-decision posts + stage-transition retros
-│   │   └── changelog/              ← per-release 200-word summaries
+│   │   ├── changelog/              ← per-release 200-word summaries
+│   │   └── releases/               ← per-release download manifests (platform assets)
 │   ├── pages/
 │   │   ├── index.astro             ← Phase-aware hero (placeholder → real)
+│   │   ├── downloads.astro         ← latest release + per-platform builds + archive
 │   │   ├── compare/[slug].astro    ← renders src/content/compare/
 │   │   ├── segments/[slug].astro   ← renders src/content/segments/
 │   │   ├── pricing.astro           ← renders ../brainstorm/docs/platform/44-pricing.md (Phase 4)
@@ -233,6 +235,7 @@ Audience: developer / power user. Posture: "alpha, format stable, API isn't; hel
 | **Site-1.3** | "Alpha" banner component; state honestly what works and what doesn't                              |
 | **Site-1.4** | GitHub README mirror — same hero copy lives at `../brainstorm/README.md`; add a CI cross-check     |
 | **Site-1.5** | Changelog page; first entry is the Stage-8 ship note (200 words)                                  |
+| **Site-1.5b** ✓ | `/downloads` page + `releases` content collection                                              | DONE. Separate `/downloads` page renders the latest release with per-platform build cards (macOS / Windows / Linux, recognisable inline-SVG glyphs, per-asset size + download link) and a reverse-chron archive of previous releases. Releases are typed Markdown in `src/content/releases/` (`version`, `date`, `channel`, `status` draft/published, `highlights`, `assets[{platform,label,href,size}]`); `Platform`/`ReleaseChannel` enums in `src/content/releases.ts`. Honest empty state (→ waitlist) until a real build is published; the seeded entry is a `draft` template. OS auto-detect highlights the matching card (progressive enhancement; renders identically without JS). Wired into header + footer nav, sitemap, and `/llms.txt`. |
 | **Site-1.6** | Blog scaffold + one **design-decision post** ("Why we built a shell, not an editor")              |
 | **Site-1.7** | Visual regression baseline (Playwright) on `/`, `/changelog`, `/blog`, blog post                  |
 | **Site-1.8** | Phase 1 audit (`docs/_review/<date>-phase-1-audit.md`): perf, a11y, copy-vs-design-docs check     |
