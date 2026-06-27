@@ -1,5 +1,5 @@
 export const POSITIONING =
-	"Brainstorm is a local-first, AI-native operating system for knowledge work. Your apps, your data, and your AI all run on your machine — and every app and every agent only touches what you allow.";
+	"Brainstorm is a local-first, AI-native operating system for knowledge work. Your apps, your data, and your AI all run on your machine, with optional end-to-end encrypted sync — and every app and every agent only touches what you allow.";
 
 export const TAGLINE_PRIMARY = "an AI-native operating system for your knowledge work";
 export const TAGLINE_SUB =
