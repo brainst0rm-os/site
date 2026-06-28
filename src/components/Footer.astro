@@ -4,12 +4,13 @@ import { SITE_NAME, links } from "~/content/site";
 
 const year = new Date().getFullYear();
 
+// Root-absolute so they work from any page, not just the homepage.
 const footerLinks = [
-	{ label: "Overview", href: "#overview" },
-	{ label: "Screenshots", href: "#inside" },
-	{ label: "How it works", href: "#capabilities" },
-	{ label: "Roadmap", href: "#roadmap" },
-	{ label: "Join the waitlist", href: "#waitlist" },
+	{ label: "Overview", href: "/#overview" },
+	{ label: "Screenshots", href: "/#inside" },
+	{ label: "How it works", href: "/#capabilities" },
+	{ label: "Roadmap", href: "/#roadmap" },
+	{ label: "Join the waitlist", href: "/#waitlist" },
 ];
 ---
 
