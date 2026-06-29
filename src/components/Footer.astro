@@ -10,7 +10,6 @@ const footerLinks = [
 	{ label: "Screenshots", href: "/#inside" },
 	{ label: "How it works", href: "/#capabilities" },
 	{ label: "Roadmap", href: "/#roadmap" },
-	{ label: "Download", href: "/downloads" },
 ];
 ---
 
@@ -82,10 +81,12 @@ const footerLinks = [
 		margin: 0;
 	}
 	.links {
-		display: flex;
-		flex-direction: column;
-		gap: 10px;
-		align-items: flex-start;
+		display: grid;
+		grid-auto-flow: column;
+		grid-template-rows: repeat(4, auto);
+		column-gap: var(--space-7);
+		row-gap: 10px;
+		justify-content: flex-start;
 	}
 	.links a {
 		color: var(--fog-3);

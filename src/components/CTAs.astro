@@ -41,12 +41,6 @@ const {
 			</svg>
 		</a>
 	</div>
-	<p class="platforms mono">
-		<span class="bullet" aria-hidden="true"></span>
-		<span class="free">Free, forever.</span>
-		<span class="sep" aria-hidden="true">·</span>
-		<span>macOS · Windows · Linux</span>
-	</p>
 </div>
 
 <style>
@@ -87,22 +81,14 @@ const {
 	}
 
 	.cta.primary {
-		background: rgba(244, 246, 251, 0.12);
-		color: var(--paper);
-		border-color: rgba(244, 246, 251, 0.28);
-		backdrop-filter: blur(10px) saturate(140%);
-		-webkit-backdrop-filter: blur(10px) saturate(140%);
-		box-shadow:
-			0 8px 32px rgba(225, 29, 72, 0.22),
-			inset 0 1px 0 rgba(244, 246, 251, 0.18);
+		background: var(--cyan-glow);
+		color: #fff;
+		border-color: transparent;
+		box-shadow: 0 6px 20px rgba(225, 29, 72, 0.28);
 	}
 	.cta.primary:hover {
-		background: rgba(244, 246, 251, 0.2);
-		border-color: rgba(244, 246, 251, 0.45);
-		color: var(--cyan-core);
-		box-shadow:
-			0 12px 40px rgba(225, 29, 72, 0.4),
-			inset 0 1px 0 rgba(244, 246, 251, 0.28);
+		background: var(--cyan-bright);
+		box-shadow: 0 10px 28px rgba(225, 29, 72, 0.42);
 	}
 	.cta.primary:hover svg {
 		transform: translateY(2px);
