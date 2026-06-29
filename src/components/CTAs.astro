@@ -5,16 +5,20 @@ interface Props {
 	primaryLabel?: string;
 	secondaryLabel?: string;
 	secondaryHref?: string;
+	/** "center" (default) for centered sections; "start" to left-align with
+	 *  left-aligned copy (e.g. the hero). */
+	align?: "start" | "center";
 }
 
 const {
 	primaryLabel = "Download",
 	secondaryLabel = "Read the docs",
 	secondaryHref = links.docs,
+	align = "center",
 } = Astro.props;
 ---
 
-<div class="cta-block">
+<div class="cta-block" data-align={align}>
 	<div class="ctas">
 		<a class="cta primary" href={links.downloads}>
 			<span>{primaryLabel}</span>
@@ -50,11 +54,17 @@ const {
 		align-items: center;
 		gap: var(--space-4);
 	}
+	.cta-block[data-align="start"] {
+		align-items: flex-start;
+	}
 	.ctas {
 		display: flex;
 		gap: var(--space-3);
 		flex-wrap: wrap;
 		justify-content: center;
+	}
+	.cta-block[data-align="start"] .ctas {
+		justify-content: flex-start;
 	}
 	.cta {
 		display: inline-flex;
