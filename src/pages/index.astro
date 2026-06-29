@@ -8,7 +8,7 @@ import GeoAccent from "~/components/GeoAccent.astro";
 import Header from "~/components/Header.astro";
 import HeroScene from "~/components/HeroScene.tsx";
 import Section from "~/components/Section.astro";
-import WaitlistForm from "~/components/WaitlistForm.astro";
+import CTAs from "~/components/CTAs.astro";
 import { POSITIONING, SITE_NAME } from "~/content/site";
 import Base from "~/layouts/Base.astro";
 
@@ -53,22 +53,22 @@ const roadmap = [
 			"Every document is a CRDT on your disk. Multi-device sync is optional and end-to-end encrypted — your keys never leave your devices.",
 	},
 	{
-		status: "On it now",
-		state: "active",
+		status: "Shipped",
+		state: "done",
 		title: "The AI broker",
 		body:
 			"One path for every AI call — your key or a local model — with a record on every object and a budget on every app.",
 	},
 	{
-		status: "Next",
-		state: "next",
+		status: "Out now",
+		state: "done",
 		title: "Public beta",
 		body:
-			"A free, encrypted, multi-device core you can actually live in, with a one-click way to bring your existing notes across.",
+			"A free, encrypted, multi-device core you can actually live in — available now for macOS, Windows, and Linux, with a one-click way to bring your existing notes across.",
 	},
 	{
-		status: "Where it's headed",
-		state: "horizon",
+		status: "On it now",
+		state: "active",
 		title: "Agents as teammates",
 		body:
 			"AI that has its own identity, its own permissions, and a history of what it did — an operating system for a team that runs on agents.",
@@ -115,7 +115,7 @@ const roadmap = [
 				</p>
 
 				<div class="hero-cta">
-						<WaitlistForm idSuffix="hero" />
+						<CTAs />
 						<p class="hero-trust mono">
 							<span class="dot" aria-hidden="true"></span>
 							Local-first · No account required · <a href="#inside">See it in action ↓</a>
@@ -240,15 +240,15 @@ const roadmap = [
 		</Section>
 
 		<!-- Closing CTA -->
-		<section id="waitlist" class="closer">
+		<section id="download" class="closer">
 			<div class="container closer-inner glow-ring">
 				<GeoAccent shape="ico" size={46} class="closer-geo" />
 				<h2 class="closer-title">Own your tools again</h2>
 				<p class="closer-lede">
-					We'll send one email when the beta opens — that's it. No newsletter, no drip.
+					Free, local-first, and yours. Download the public beta for macOS, Windows, or Linux.
 				</p>
-				<WaitlistForm idSuffix="closer" />
-				<p class="closer-note mono">We store your email to tell you about the beta. Nothing else.</p>
+				<CTAs />
+				<p class="closer-note mono">No account required. Your vault is a folder you control.</p>
 			</div>
 		</section>
 	</main>
