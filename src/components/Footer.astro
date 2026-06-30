@@ -41,6 +41,12 @@ const footerLinks = [
 				Open source · AGPL-3.0
 			</a>
 		</div>
+
+		<div class="footer-badges">
+			<a href="https://openhunts.com" target="_blank" title="OpenHunts Club">
+				<img alt="OpenHunts Club Member" height="105" src="https://cdn.openhunts.com/badges/club.webp" style="width: 195px; height: auto;" width="486">
+			</a>
+		</div>
 	</div>
 </footer>
 
@@ -119,5 +125,12 @@ const footerLinks = [
 	}
 	.source:hover {
 		color: var(--cyan-core);
+	}
+	.footer-badges {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-4);
+		align-items: center;
+		margin-top: var(--space-5);
 	}
 </style>
