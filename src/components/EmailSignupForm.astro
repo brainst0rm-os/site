@@ -1,0 +1,182 @@
+---
+/**
+ * Shared email-capture form. Posts to a Turso-backed endpoint (see
+ * `api/waitlist.ts` / `api/newsletter.ts`). Both the waitlist and the
+ * newsletter render through this — the client script binds every
+ * `.email-signup` on the page and reads its target + copy from `data-*`,
+ * so a page may show more than one with different destinations.
+ */
+interface Props {
+	/** The API route this form posts to, e.g. "/api/newsletter". */
+	endpoint: string;
+	/** Amplitude event fired on a successful submit. */
+	trackEvent: string;
+	/** Confirmation copy shown in place of the field once accepted. */
+	successLabel: string;
+	/** A stable id so the label/input pair stays unique when rendered twice. */
+	idSuffix?: string;
+	/** Extra class on the form for page-level layout hooks (e.g. "waitlist"). */
+	extraClass?: string;
+	cta?: string;
+	placeholder?: string;
+}
+const {
+	endpoint,
+	trackEvent,
+	successLabel,
+	idSuffix = "signup",
+	extraClass = "",
+	cta = "Subscribe",
+	placeholder = "you@example.com",
+} = Astro.props;
+const inputId = `email-${idSuffix}`;
+---
+
+<form
+	class:list={["email-signup", extraClass]}
+	method="POST"
+	action={endpoint}
+	data-endpoint={endpoint}
+	data-track={trackEvent}
+	data-success={successLabel}
+>
+	<label class="sr-only" for={inputId}>Email address</label>
+	<input
+		id={inputId}
+		class="field"
+		type="email"
+		name="email"
+		required
+		autocomplete="email"
+		spellcheck="false"
+		placeholder={placeholder}
+	/>
+	<button class="submit" type="submit">{cta}</button>
+	<p class="status" role="status" aria-live="polite" hidden></p>
+</form>
+
+<style>
+	.email-signup {
+		display: flex;
+		gap: var(--space-3);
+		width: 100%;
+		max-width: 480px;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.field {
+		flex: 1 1 220px;
+		min-width: 0;
+		padding: 14px 16px;
+		border-radius: var(--radius-2);
+		border: 1px solid var(--hairline-strong);
+		background: var(--bg-edge);
+		color: var(--paper);
+		font-size: var(--text-base);
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
+	}
+	.field::placeholder {
+		color: var(--fog-1);
+	}
+	.field:focus-visible {
+		outline: none;
+		border-color: var(--cyan-glow);
+		box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.25);
+	}
+	.submit {
+		padding: 14px 24px;
+		border-radius: var(--radius-2);
+		border: 1px solid transparent;
+		background: var(--cyan-mid);
+		color: #fff;
+		font-size: var(--text-base);
+		font-weight: 500;
+		letter-spacing: var(--tracking-tight);
+		cursor: pointer;
+		box-shadow: 0 8px 24px rgba(225, 29, 72, 0.28);
+		transition:
+			background var(--dur-base) var(--ease-out),
+			box-shadow var(--dur-base) var(--ease-out),
+			transform var(--dur-fast) var(--ease-out);
+	}
+	.submit:hover {
+		background: var(--cyan-bright);
+		box-shadow: 0 12px 32px rgba(225, 29, 72, 0.38);
+	}
+	.submit:active {
+		transform: translateY(1px);
+	}
+	.submit:disabled {
+		opacity: 0.6;
+		cursor: default;
+	}
+	.status {
+		flex-basis: 100%;
+		margin: 0;
+		font-size: var(--text-sm);
+		color: var(--cyan-core);
+		text-shadow: 0 1px 2px rgba(253, 244, 246, 0.9);
+	}
+	.status.is-error {
+		color: var(--paper);
+	}
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
+	}
+</style>
+
+<script>
+	import { track } from "@amplitude/analytics-browser";
+
+	for (const form of document.querySelectorAll<HTMLFormElement>(".email-signup")) {
+		const status = form.querySelector<HTMLParagraphElement>(".status");
+		const endpoint = form.dataset.endpoint ?? form.action;
+		const trackEvent = form.dataset.track ?? "Email Signup";
+		const successLabel = form.dataset.success ?? "You're subscribed.";
+
+		form.addEventListener("submit", async (event) => {
+			if (!status) return;
+			event.preventDefault();
+			const button = form.querySelector("button");
+			if (button) button.disabled = true;
+			status.hidden = false;
+			status.classList.remove("is-error");
+			status.textContent = "Submitting…";
+
+			try {
+				const response = await fetch(endpoint, {
+					method: "POST",
+					headers: { "Content-Type": "application/json", Accept: "application/json" },
+					body: JSON.stringify({ email: new FormData(form).get("email") }),
+				});
+				if (response.ok) {
+					track(trackEvent);
+					const input = form.querySelector<HTMLInputElement>(".field");
+					if (input) input.hidden = true;
+					if (button) button.hidden = true;
+					status.textContent = successLabel;
+				} else {
+					if (button) button.disabled = false;
+					status.classList.add("is-error");
+					status.textContent =
+						response.status === 400
+							? "That email doesn't look right. Try again."
+							: "Something went wrong. Please try again.";
+				}
+			} catch {
+				if (button) button.disabled = false;
+				status.classList.add("is-error");
+				status.textContent = "Network error. Please try again.";
+			}
+		});
+	}
+</script>

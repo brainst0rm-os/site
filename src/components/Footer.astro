@@ -1,5 +1,6 @@
 ---
 import BrandMark from "~/components/BrandMark.astro";
+import NewsletterForm from "~/components/NewsletterForm.astro";
 import { SITE_NAME, links } from "~/content/site";
 
 const year = new Date().getFullYear();
@@ -25,6 +26,11 @@ const footerLinks = [
 					A local-first, AI-native operating system for your knowledge work. Your data lives on
 					your machine — no account required.
 				</p>
+
+				<div class="newsletter-col">
+					<p class="newsletter-label">Get product updates</p>
+					<NewsletterForm />
+				</div>
 			</div>
 
 			<nav class="links" aria-label="Footer">
@@ -84,6 +90,19 @@ const footerLinks = [
 		font-size: var(--text-sm);
 		line-height: var(--leading-snug);
 		color: var(--fog-2);
+		margin: 0;
+	}
+	.newsletter-col {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin-top: var(--space-3);
+	}
+	.newsletter-label {
+		font-size: var(--text-mono);
+		color: var(--fog-1);
+		letter-spacing: var(--tracking-eyebrow);
+		text-transform: uppercase;
 		margin: 0;
 	}
 	.links {

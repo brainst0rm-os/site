@@ -1,0 +1,22 @@
+---
+/**
+ * The newsletter signup — a configured EmailSignupForm posting to
+ * /api/newsletter (same Turso DB, separate table). Lives in the footer.
+ */
+import EmailSignupForm from "~/components/EmailSignupForm.astro";
+
+interface Props {
+	idSuffix?: string;
+	cta?: string;
+}
+const { idSuffix = "footer", cta = "Subscribe" } = Astro.props;
+---
+
+<EmailSignupForm
+	endpoint="/api/newsletter"
+	trackEvent="Newsletter Signup"
+	successLabel="You're subscribed. We'll send the occasional update."
+	extraClass="newsletter"
+	idSuffix={idSuffix}
+	cta={cta}
+/>

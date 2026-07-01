@@ -14,7 +14,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "size": "size-limit",
-    "waitlist": "bun scripts/list-waitlist.ts"
+    "waitlist": "bun scripts/list-waitlist.ts",
+    "newsletter": "bun scripts/list-newsletter.ts"
   },
   "dependencies": {
     "@amplitude/analytics-browser": "^2.44.1",
