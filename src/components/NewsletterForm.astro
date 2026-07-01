@@ -1,0 +1,23 @@
+---
+/**
+ * The newsletter signup — a configured EmailSignupForm. Shares the waitlist
+ * table (one email list); the distinct "Newsletter Signup" event still lets
+ * Amplitude attribute the source. Lives in the footer.
+ */
+import EmailSignupForm from "~/components/EmailSignupForm.astro";
+
+interface Props {
+	idSuffix?: string;
+	cta?: string;
+}
+const { idSuffix = "footer", cta = "Subscribe" } = Astro.props;
+---
+
+<EmailSignupForm
+	endpoint="/api/waitlist"
+	trackEvent="Newsletter Signup"
+	successLabel="You're subscribed. We'll send the occasional update."
+	extraClass="newsletter"
+	idSuffix={idSuffix}
+	cta={cta}
+/>
