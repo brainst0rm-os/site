@@ -1,5 +1,6 @@
 ---
 import { getCollection } from "astro:content";
+import CTAs from "~/components/CTAs.astro";
 import CornerMarks from "~/components/CornerMarks.astro";
 import Divider from "~/components/Divider.astro";
 import Footer from "~/components/Footer.astro";
@@ -8,7 +9,6 @@ import GeoAccent from "~/components/GeoAccent.astro";
 import Header from "~/components/Header.astro";
 import HeroScene from "~/components/HeroScene.tsx";
 import Section from "~/components/Section.astro";
-import CTAs from "~/components/CTAs.astro";
 import { POSITIONING, SITE_NAME } from "~/content/site";
 import Base from "~/layouts/Base.astro";
 
@@ -162,6 +162,9 @@ const roadmap = [
 			lede="Each app reads and writes the same vault, so a note you write here is a row there and a node in the graph — never a copy, never an export."
 		>
 			<Gallery />
+			<p class="inside-more">
+				<a href="/apps">Every app, fully described — capabilities and screenshots →</a>
+			</p>
 		</Section>
 
 		<Divider />
@@ -572,6 +575,18 @@ const roadmap = [
 		font-size: var(--text-base);
 		line-height: var(--leading-snug);
 		color: var(--fog-2);
+	}
+
+	/* ── A look inside ──────────────────────────────────── */
+	.inside-more {
+		margin-top: var(--space-5);
+		font-size: var(--text-base);
+	}
+	.inside-more a {
+		color: var(--cyan-bright);
+	}
+	.inside-more a:hover {
+		color: var(--cyan-core);
 	}
 
 	/* ── AI-native split ────────────────────────────────── */

@@ -262,9 +262,15 @@ import { SITE_NAME, links, nav } from "~/content/site";
 		for (const s of sections) io.observe(s);
 	}
 
-	// Highlight the first section on load (before any scroll), once layout is
-	// ready so the underline measures correctly.
-	requestAnimationFrame(() => setActive(links[0] ?? null));
+	// Highlight the current page's own nav link (e.g. /apps); on the homepage,
+	// fall back to the first section. Deferred a frame so the underline measures
+	// correctly once layout is ready.
+	const pageLink =
+		location.pathname !== "/"
+			? (links.find((l) => new URL(l.href, location.origin).pathname === location.pathname) ??
+				null)
+			: null;
+	requestAnimationFrame(() => setActive(pageLink ?? (sections.length ? (links[0] ?? null) : null)));
 
 	// Re-measure the underline on resize so it stays aligned.
 	window.addEventListener("resize", () => {

@@ -21,7 +21,7 @@ export const links = {
 // scroll-spy keys off `section` (the target element id), not the href.
 export const nav = [
 	{ label: "Overview", href: "/#overview", section: "overview" },
-	{ label: "Screenshots", href: "/#inside", section: "inside" },
+	{ label: "Apps", href: "/apps", section: "apps" },
 	{ label: "How it works", href: "/#capabilities", section: "capabilities" },
 	{ label: "Roadmap", href: "/#roadmap", section: "roadmap" },
 ] as const;

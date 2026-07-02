@@ -253,6 +253,7 @@ Audience expands to alumni-of-prior-tools + privacy-conscious. Per-product compa
 | **Site-2.5** | Plausible (self-hosted) wired in; server-side only; documented privacy policy                              |
 | **Site-2.6** | Newsletter migration Buttondown → Listmonk self-hosted; double opt-in preserved                            |
 | **Site-2.7** | Phase 2 audit; competitor outreach (per `46 §OQ-MK-8`) — one-week heads-up before each `/compare/<x>` ship |
+| **Site-2.8** ✓ | `/apps` page — all 20 first-party apps, each with full capability copy (sourced from the design docs) + a per-app light/dark screenshot slider | DONE 2026-07-02. New `apps` content collection (order/name/appId/tagline/summary/capabilities/screenshots/source, zod-validated, citation-tested), `AppSlider.astro` (Swiper, per-app captions, Rose/Midnight theme swap), `/apps` route with jump index + per-app blocks, header/footer/sitemap/llms.txt wiring. Screenshots captured from the real build by `tests/dogfood/sessions/site-app-screenshots.spec.ts` in the shell harness (fresh seeded vault, 1440×900, both themes). The docs site got the same treatment (per-app pages with sliders) in its own repo the same day. |
 
 ### Phase 3 — v1 (end of brainstorm Stage 13)
 

@@ -5,7 +5,7 @@ import { SITE_URL } from "~/content/site";
 // the domain never drifts. Only indexable routes belong here — /joined is the
 // waitlist confirmation page (noindex), so it is deliberately omitted. Add a
 // route below when a new public, crawlable page ships.
-const routes = ["/", "/downloads"];
+const routes = ["/", "/apps", "/downloads"];
 
 export const GET: APIRoute = () => {
 	const body = `<?xml version="1.0" encoding="UTF-8"?>
