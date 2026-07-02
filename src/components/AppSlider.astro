@@ -1,0 +1,331 @@
+---
+/**
+ * Per-app screenshot slider for the /apps page. Same visual language as the
+ * homepage Gallery (framed window, hover arrows, dot pagination, caption
+ * below), but scoped to one app's shots and cheap enough to mount twenty
+ * times on one page. Dark-theme variants follow the established convention:
+ * the Midnight capture lives in a `midnight/` dir next to the light file.
+ */
+interface Shot {
+	src: string;
+	title: string;
+	caption: string;
+}
+
+interface Props {
+	name: string;
+	shots: Shot[];
+}
+
+const { name, shots } = Astro.props;
+const first = shots[0];
+const multi = shots.length > 1;
+
+const darkSrc = (src: string) => src.replace(/\/([^/]+)$/, "/midnight/$1");
+---
+
+<figure class="app-slider" data-app-slider>
+	<div class="stage">
+		<div class="viewport">
+			<span class="traffic" aria-hidden="true"><i /> <i /> <i /></span>
+			<div class="swiper track" data-track>
+				<div class="swiper-wrapper">
+					{
+						shots.map((shot) => (
+							<div
+								class="swiper-slide slide"
+								data-shot-title={shot.title}
+								data-shot-caption={shot.caption}
+							>
+								<img
+									class="shot-img shot-img--light"
+									src={shot.src}
+									alt={`${name}: ${shot.title}`}
+									loading="lazy"
+									decoding="async"
+									width="1440"
+									height="900"
+									draggable="false"
+								/>
+								<img
+									class="shot-img shot-img--dark"
+									src={darkSrc(shot.src)}
+									alt={`${name}: ${shot.title}`}
+									loading="lazy"
+									decoding="async"
+									width="1440"
+									height="900"
+									draggable="false"
+								/>
+							</div>
+						))
+					}
+				</div>
+			</div>
+		</div>
+
+		{
+			multi && (
+				<>
+					<button class="arrow arrow--prev" data-prev type="button" aria-label={`Previous ${name} screenshot`}>
+						<svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true">
+							<path
+								d="M13 5l-6 6 6 6"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.7"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+					</button>
+					<button class="arrow arrow--next" data-next type="button" aria-label={`Next ${name} screenshot`}>
+						<svg width="20" height="20" viewBox="0 0 22 22" aria-hidden="true">
+							<path
+								d="M9 5l6 6-6 6"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.7"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+							/>
+						</svg>
+					</button>
+				</>
+			)
+		}
+	</div>
+
+	<figcaption class="caption" aria-live="polite">
+		<span class="cap-title" data-cap-title>{first?.title}</span>
+		<span class="cap-text" data-cap-text>{first?.caption}</span>
+	</figcaption>
+
+	{multi && <div class="dots" data-dots />}
+</figure>
+
+<style>
+	.app-slider {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3);
+		margin: 0;
+	}
+	.stage {
+		position: relative;
+	}
+	.viewport {
+		position: relative;
+		border-radius: 10px;
+		overflow: hidden;
+		border: 1px solid var(--hairline);
+		background: var(--bg-mid);
+		box-shadow:
+			0 14px 36px rgba(58, 31, 41, 0.12),
+			0 2px 5px rgba(58, 31, 41, 0.05);
+	}
+	.traffic {
+		position: absolute;
+		top: 10px;
+		left: 12px;
+		z-index: 3;
+		display: inline-flex;
+		gap: 6px;
+		pointer-events: none;
+	}
+	.traffic i {
+		width: 9px;
+		height: 9px;
+		border-radius: 50%;
+		box-shadow:
+			inset 0 0 0 0.5px rgba(0, 0, 0, 0.14),
+			0 1px 2px rgba(0, 0, 0, 0.22);
+	}
+	.traffic i:nth-child(1) {
+		background: #ff5f57;
+	}
+	.traffic i:nth-child(2) {
+		background: #febc2e;
+	}
+	.traffic i:nth-child(3) {
+		background: #28c840;
+	}
+	.track {
+		width: 100%;
+	}
+	.slide {
+		min-width: 0;
+	}
+	.slide img {
+		display: block;
+		width: 100%;
+		height: auto;
+		aspect-ratio: 1440 / 900;
+		object-fit: cover;
+		object-position: top left;
+		user-select: none;
+	}
+
+	/* Theme swap: Rose captures in light, Midnight captures in dark. */
+	.slide .shot-img--dark {
+		display: none;
+	}
+	:global([data-theme="dark"]) .slide .shot-img--light {
+		display: none;
+	}
+	:global([data-theme="dark"]) .slide .shot-img--dark {
+		display: block;
+	}
+
+	.arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 4;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 38px;
+		height: 38px;
+		border-radius: var(--radius-pill);
+		border: 1px solid var(--hairline);
+		background: color-mix(in srgb, var(--bg-mid) 88%, transparent);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		color: var(--paper);
+		cursor: pointer;
+		opacity: 0;
+		box-shadow: 0 4px 14px rgba(58, 31, 41, 0.2);
+		transition:
+			color var(--dur-base) var(--ease-out),
+			background var(--dur-base) var(--ease-out),
+			border-color var(--dur-base) var(--ease-out),
+			opacity var(--dur-base) var(--ease-out);
+	}
+	.arrow--prev {
+		left: 10px;
+	}
+	.arrow--next {
+		right: 10px;
+	}
+	.stage:hover .arrow,
+	.arrow:focus-visible {
+		opacity: 1;
+	}
+	.arrow:hover {
+		color: #fff;
+		background: var(--cyan-mid);
+		border-color: var(--cyan-mid);
+	}
+	/* Touch users swipe; arrows are pointer-only chrome. */
+	@media (hover: none), (pointer: coarse) {
+		.arrow {
+			display: none;
+		}
+	}
+
+	.caption {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		max-width: 64ch;
+		transition: opacity var(--dur-base) var(--ease-out);
+	}
+	.cap-title {
+		font-size: var(--text-base);
+		font-weight: 500;
+		color: var(--paper);
+		letter-spacing: var(--tracking-tight);
+	}
+	.cap-text {
+		font-size: var(--text-sm);
+		line-height: var(--leading-snug);
+		color: var(--fog-2);
+	}
+
+	.dots {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-wrap: wrap;
+	}
+	.dots :global(.app-dot) {
+		display: inline-block;
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--hairline-strong);
+		cursor: pointer;
+		transition:
+			background var(--dur-base) var(--ease-out),
+			width var(--dur-base) var(--ease-out);
+	}
+	.dots :global(.app-dot--active) {
+		background: var(--cyan-glow);
+		width: 22px;
+		border-radius: var(--radius-pill);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.caption {
+			transition: none;
+		}
+	}
+</style>
+
+<script>
+	import Swiper from "swiper";
+	import { A11y, Keyboard, Navigation, Pagination } from "swiper/modules";
+	import "swiper/css";
+
+	for (const root of document.querySelectorAll<HTMLElement>("[data-app-slider]")) {
+		const track = root.querySelector<HTMLElement>("[data-track]");
+		if (!track) continue;
+		const slides = track.querySelectorAll(".swiper-slide");
+		if (slides.length <= 1) continue;
+
+		const cap = root.querySelector<HTMLElement>(".caption");
+		const capTitle = root.querySelector<HTMLElement>("[data-cap-title]");
+		const capText = root.querySelector<HTMLElement>("[data-cap-text]");
+
+		const renderCaption = (sw: Swiper) => {
+			const slide = sw.slides[sw.activeIndex];
+			if (!slide || !capTitle || !capText) return;
+			capTitle.textContent = slide.dataset.shotTitle ?? "";
+			capText.textContent = slide.dataset.shotCaption ?? "";
+		};
+
+		const swiper = new Swiper(track, {
+			modules: [Navigation, Pagination, Keyboard, A11y],
+			loop: true,
+			slidesPerView: 1,
+			speed: 420,
+			navigation: {
+				prevEl: root.querySelector<HTMLElement>("[data-prev]"),
+				nextEl: root.querySelector<HTMLElement>("[data-next]"),
+			},
+			pagination: {
+				el: root.querySelector<HTMLElement>("[data-dots]"),
+				clickable: true,
+				bulletClass: "app-dot",
+				bulletActiveClass: "app-dot--active",
+			},
+			keyboard: { enabled: true, onlyInViewport: true },
+			a11y: { enabled: true },
+			on: {
+				slideChange(sw) {
+					if (cap) {
+						cap.style.opacity = "0";
+						window.setTimeout(() => {
+							renderCaption(sw);
+							cap.style.opacity = "1";
+						}, 140);
+					} else {
+						renderCaption(sw);
+					}
+				},
+			},
+		});
+		renderCaption(swiper);
+	}
+</script>

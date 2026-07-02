@@ -10,6 +10,7 @@ export const GET: APIRoute = async () => {
 	const capabilities = (await getCollection("capabilities")).sort(
 		(a, b) => a.data.order - b.data.order,
 	);
+	const apps = (await getCollection("apps")).sort((a, b) => a.data.order - b.data.order);
 
 	const sections: string[] = [
 		`# ${SITE_NAME}`,
@@ -21,7 +22,12 @@ export const GET: APIRoute = async () => {
 		"## Pages",
 		"",
 		`- [${SITE_NAME} — home](${SITE_URL}/): overview, screenshots, how it works, the roadmap, and download links`,
+		`- [Apps](${SITE_URL}/apps): every first-party app with its full capabilities and screenshots`,
 		`- [Downloads](${SITE_URL}/downloads): desktop builds for macOS, Windows, and Linux; every release is posted here`,
+		"",
+		"## Apps",
+		"",
+		...apps.map((a) => `- [${a.data.name}](${SITE_URL}/apps#${a.slug}): ${a.data.summary}`),
 		"",
 		"## How it works",
 		"",

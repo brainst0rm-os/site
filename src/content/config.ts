@@ -1,6 +1,28 @@
 import { defineCollection, z } from "astro:content";
 import { Platform, ReleaseChannel } from "~/content/releases";
 
+const apps = defineCollection({
+	type: "content",
+	schema: z.object({
+		order: z.number().int().positive(),
+		name: z.string(),
+		appId: z.string().startsWith("io.brainstorm."),
+		tagline: z.string().max(72),
+		summary: z.string().min(20),
+		capabilities: z.array(z.string().min(10)).min(3).max(8),
+		screenshots: z
+			.array(
+				z.object({
+					src: z.string().startsWith("/screenshots/apps/"),
+					title: z.string(),
+					caption: z.string().min(20),
+				}),
+			)
+			.min(1),
+		source: z.string(),
+	}),
+});
+
 const capabilities = defineCollection({
 	type: "content",
 	schema: z.object({
@@ -104,6 +126,7 @@ const releases = defineCollection({
 });
 
 export const collections = {
+	apps,
 	capabilities,
 	changelog,
 	releases,

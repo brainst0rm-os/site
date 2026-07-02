@@ -45,7 +45,7 @@ function walkMd(dir: string, files: string[] = []): string[] {
 }
 
 const CONTENT = new URL("../src/content", import.meta.url).pathname;
-const SOURCE_REQUIRED = ["capabilities", "segments", "compare"];
+const SOURCE_REQUIRED = ["apps", "capabilities", "segments", "compare"];
 
 describe("content citations", () => {
 	for (const collection of SOURCE_REQUIRED) {
